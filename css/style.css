@@ -118,11 +118,11 @@ body {
 
 .option-guide .options button:active,
 .option-guide .options button:focus {
-  background-color: rgba(123, 211, 211, 0.9);  
+  background-color: rgba(123, 211, 211, 0.8);  
 }
 
 .option-guide button.clicked {
-  background-color: rgba(123, 211, 211, 0.9); /* Darkened color for clicked state */
+  background-color: rgba(123, 211, 211, 0.8); /* Darkened color for clicked state */
 }
 
 
