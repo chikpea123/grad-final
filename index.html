@@ -1399,28 +1399,38 @@
         height = 400 - margin.top - margin.bottom;
 
       // append the svg object to the body of the page
-      const svg = d3
-        .select("#GDP")
-        .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform", `translate(${margin.left},${margin.top})`);
-
       //Read the data
       function setData(country_code) {
+        d3.select("#GDP").selectAll("svg").remove();
+
+        const svg = d3
+          .select("#GDP")
+          .append("svg")
+          .attr("width", width + margin.left + margin.right)
+          .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+          .attr("transform", `translate(${margin.left},${margin.top})`);
+
         d3.csv(
           `https://raw.githubusercontent.com/chikpea123/grad-final/gdb-vis/dataset/GDP/${country_code}.csv`,
 
           // When reading the csv, I must format variables:
           function (d) {
-            console.log(d);
-            return { date: d3.timeParse("%Y-%m-%d")(d.date), value: d.value };
+            return {
+              date: d3.timeParse("%Y")(d.date),
+              value: d.val,
+            };
           },
         ).then(
           // Now I can use this dataset:
           function (data) {
             // Add X axis --> it is a date format
+            for (let i = data.length - 1; i >= 0; i--) {
+              console.log(data[i]);
+              if (data[i].value === "nan") {
+                data.splice(i, 1);
+              }
+            }
             const x = d3
               .scaleTime()
               .domain(
@@ -1464,6 +1474,13 @@
                     return y(d.value);
                   }),
               );
+
+            //add titles
+            svg
+              .append("text")
+              .attr("x", width / 2)
+              .attr("y", height / 2)
+              .text(country_code);
           },
         );
       }
