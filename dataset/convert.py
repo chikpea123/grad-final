@@ -9,4 +9,4 @@ for index, row in df.iterrows():
         file.write("date, val\n")
         for name, val in row.items():
             if name not in ignore:
-                file.write(str(name) + ", " + str(val) + "\n")
+                file.write(str(name) + "," + str(val) + "\n")

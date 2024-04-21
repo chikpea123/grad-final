@@ -1408,13 +1408,11 @@
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
       //Read the data
-      function setData(country_code){
-
-
+      function setData(country_code) {
         d3.csv(
-          `https://raw.githubusercontent.com/chikpea123/grad-final/gdb-vis/dataset/GDP/${country_code}.csv`
+          `https://raw.githubusercontent.com/chikpea123/grad-final/gdb-vis/dataset/GDP/${country_code}.csv`,
 
-        // When reading the csv, I must format variables:
+          // When reading the csv, I must format variables:
           function (d) {
             console.log(d);
             return { date: d3.timeParse("%Y-%m-%d")(d.date), value: d.value };
@@ -1429,8 +1427,8 @@
                 d3.extent(data, function (d) {
                   return d.date;
                 }),
-            )
-            .range([0, width]);
+              )
+              .range([0, width]);
             svg
               .append("g")
               .attr("transform", `translate(0, ${height})`)
