@@ -1346,7 +1346,8 @@
     <div id="overlay" class="hidden">
       <div id="collapse" onclick="toggleNav()">X</div>
       <h1>charts</h1>
-      <div id="GDP">dd</div>
+      <div id="GDP">gdp</div>
+      <div id="Unemployment">ue</div>
     </div>
     <script>
       //display country on hover
@@ -1393,11 +1394,11 @@
 
       // append the svg object to the body of the page
       //Read the data
-      function setData(country_code) {
-        d3.select("#GDP").selectAll("svg").remove();
+      function setData(id, country_code, location) {
+        d3.select(id).selectAll("svg").remove();
 
         const svg = d3
-          .select("#GDP")
+          .select(id)
           .append("svg")
           .attr("width", width + margin.left + margin.right)
           .attr("height", height + margin.top + margin.bottom)
@@ -1405,7 +1406,7 @@
           .attr("transform", `translate(${margin.left},${margin.top})`);
 
         d3.csv(
-          `https://raw.githubusercontent.com/chikpea123/grad-final/gdb-vis/dataset/GDP/${country_code}.csv`,
+          `https://raw.githubusercontent.com/chikpea123/grad-final/unemployment-vis/dataset/${location}/${country_code}.csv`,
 
           // When reading the csv, I must format variables:
           function (d) {
@@ -1477,7 +1478,10 @@
           },
         );
       }
-      setData("ABW");
+
+      //TODO: remove?
+      setData("#GDP", "ABW", "GDP");
+      setData("#Unemployment", "ABW", "Unemployment");
     </script>
 
     <script>
@@ -1486,7 +1490,12 @@
         .selectAll("path")
         .on("click", function (e) {
           console.log(e.target.attributes.id.value);
-          setData(e.target.attributes.id.value);
+          setData("#GDP", e.target.attributes.id.value, "GDP");
+          setData(
+            "#Unemployment",
+            e.target.attributes.id.value,
+            "Unemployment",
+          );
         });
     </script>
   </body>
