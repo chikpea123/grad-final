@@ -73,7 +73,7 @@ body {
 }
 
 #overlay {
-  width: 80vw;
+  width: 30vw;
   height: 100%;
   position: fixed;
   z-index: 1;
