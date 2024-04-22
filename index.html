@@ -1347,7 +1347,7 @@
       <h1>charts</h1>
       <div id="GDP">gdp</div>
       <div id="Unemployment">ue</div>
-      <div id="Illiteracy">il</div>
+      <div id="Literacy">il</div>
     </div>
     <script>
       //display country on hover
@@ -1481,6 +1481,7 @@
       //TODO: remove?
       setData("#GDP", "ABW", "GDP");
       setData("#Unemployment", "ABW", "Unemployment");
+      setData("#Literacy", "ABW", "Literacy");
     </script>
 
     <script>
@@ -1494,7 +1495,7 @@
             e.target.attributes.id.value,
             "Unemployment",
           );
-          setData("#Illiteracy", e.target.attributes.id.value, "Illiteracy");
+          setData("#Literacy", e.target.attributes.id.value, "Literacy");
         });
     </script>
   </body>

@@ -61,6 +61,7 @@ body {
   text-align: center;
   line-height: 50px;
   border-radius: 12px 0px 0px 12px;
+  cursor: pointer;
 }
 
 #collapse {
@@ -70,10 +71,12 @@ body {
   text-align: center;
   line-height: 50px;
   position: fixed;
+  cursor: pointer;
 }
 
 #overlay {
   width: 80vw;
+  resize: horizontal;
   height: 100%;
   position: fixed;
   z-index: 1;
