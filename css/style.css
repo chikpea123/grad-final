@@ -131,3 +131,15 @@ body {
     0.8
   ); /* Darkened color for clicked state */
 }
+
+#charts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+#GDP,
+#Uneployment,
+#Literacy {
+}

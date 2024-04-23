@@ -1345,9 +1345,11 @@
     <div id="overlay" class="hidden">
       <div id="collapse" onclick="toggleNav()">X</div>
       <h1>charts</h1>
-      <div id="GDP">gdp</div>
-      <div id="Unemployment">ue</div>
-      <div id="Literacy">il</div>
+      <div id="charts">
+        <div id="GDP">gdp</div>
+        <div id="Unemployment">ue</div>
+        <div id="Literacy">il</div>
+      </div>
     </div>
     <script>
       //display country on hover
@@ -1388,8 +1390,8 @@
 
     <script>
       // set the dimensions and margins of the graph
-      const margin = { top: 10, right: 30, bottom: 30, left: 60 },
-        width = 460 - margin.left - margin.right,
+      const margin = { top: 80, right: 30, bottom: 30, left: 60 },
+        width = 530 - margin.left - margin.right,
         height = 400 - margin.top - margin.bottom;
 
       // append the svg object to the body of the page
@@ -1472,8 +1474,8 @@
             svg
               .append("text")
               .attr("x", width / 2)
-              .attr("y", height / 2)
-              .text(country_code);
+              .attr("y", -15)
+              .text(location);
           },
         );
       }
