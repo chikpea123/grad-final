@@ -20,7 +20,6 @@
       }
       
       function changeHoverDisplay(event, indicator, country, abbv) {
-        changeColor(event);
         var csvFilePath;
 
         switch (indicator) {
@@ -1418,18 +1417,27 @@
           var centerY = bbox.y + bbox.height / 2;
 
           tooltip.style.position = "absolute";
-          tooltip.style.left =
-            bbox.x +
-            window.pageXOffset +
-            bbox.width / 2 -
-            tooltip.offsetWidth / 2 +
-            "px";
-          tooltip.style.top =
-            bbox.y +
-            window.pageYOffset +
-            bbox.height / 2 -
-            tooltip.offsetHeight / 2 +
-            "px";
+          tooltip.style.left = event.pageX - tooltip.offsetWidth / 2 + "px";
+          tooltip.style.top = event.pageY - tooltip.offsetHeight / 2 + "px";
+
+          let mouseover = function (d) {
+            tooltip.style("opacity", 1).style("display", "block");
+            d3.select(this).style("stroke", "black").style("opacity", 1);
+            console.log(calcHeight());
+          };
+          let mousemove = function (event, d) {
+          tooltip
+          .html(
+            "Country: " + d.name + "<br/>"
+          )
+          .style("left", event.clientX - vw(20) + 50 + "px")
+          .style("top", event.clientY + calcHeight() + "px");
+          };
+
+          let mouseleave = function (d) {
+          tooltip.style("opacity", 0).style("display", "none");
+          d3.select(this).style("stroke", "none");
+        };
 
           document.body.appendChild(tooltip);
           changeHoverDisplay(event, "GDP_Button", title, abbv);
