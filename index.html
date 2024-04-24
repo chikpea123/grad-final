@@ -31,9 +31,6 @@
             d3.csv(csvFilePath)
               .then(function (data) {
                 const gdp2022 = data.find((entry) => entry.date === "2022").val;
-                console.log(
-                  "Country Name: " + country + ", GDP (2022): " + gdp2022,
-                );
               })
               .catch(function (error) {
                 console.error("Error fetching data:", error);
@@ -50,7 +47,6 @@
                 );
                 if (entry2022 && typeof entry2022.USD !== "undefined") {
                   const bmi2022 = entry2022.USD;
-                  console.log("Big Mac Index USD (2022): " + bmi2022);
                 } else {
                   console.error(
                     "No valid data found for the specified conditions.",
@@ -82,22 +78,39 @@
       <div class="option-guide">
         <ul>
           <li>
-            <button id ="BMI_Button" class="option-button" onclick="changeColor(event)">
+            <button
+              id="BMI_Button"
+              class="option-button"
+              onclick="changeColor(event)"
+            >
               Big Mac Index
             </button>
           </li>
           <li>
+            <button
+              id="GDP_Button"
+              class="option-button"
+              onclick="changeColor(event)"
+            >
             <button id="GDP_Button" class="option-button" onclick="(function(){changeColor(event);})()">
               GDP
             </button>
           </li>
           <li>
-            <button id="LR_Button" class="option-button" onclick="changeColor(event)">
+            <button
+              id="LR_Button"
+              class="option-button"
+              onclick="changeColor(event)"
+            >
               Literacy Rate
             </button>
           </li>
           <li>
-            <button id="IR_Button" class="option-button" onclick="changeColor(event)">
+            <button
+              id="IR_Button"
+              class="option-button"
+              onclick="changeColor(event)"
+            >
               Inflation Rate
             </button>
           </li>
@@ -1408,6 +1421,7 @@
         <div id="BigMacIndex"></div>
       </div>
     </div>
+    <script src="js/country_compare.js"></script>
     <script>
       var tooltip = d3
         .select("body")
@@ -1415,29 +1429,37 @@
         .attr("class", "tooltip")
         .style("opacity", 0);
 
-      var buttonID;
-      
       //determine which button option is selected
-      document.querySelector(".option-guide").addEventListener("click", function(event) {
+      document.querySelector(".option-guide ul").addEventListener("click", function(event) {
         if (event.target.classList.contains("option-button")) {
-          buttonId = event.target.id;
-        }
-      });
+        var buttonId = event.target.id;
+        // Retrieve title and abbv from the currently hovered country
+        var title = document.querySelector("#map-svg path:hover").getAttribute("title");
+        var abbv = document.querySelector("#map-svg path:hover").getAttribute("id");
 
-      //display country on hover
-      d3.select("#map-svg")
-        .selectAll("path")
-        .on("mouseover", function (event, d) { 
-        var title = d3.select(this).attr("title");
-        var abbv = d3.select(this).attr("id");
-
+        // Show tooltip
         tooltip.style("opacity", 1)
         .html(title)
         .style("left", (event.pageX - tooltip.node().offsetWidth / 2) + "px")
         .style("top", (event.pageY - tooltip.node().offsetHeight - 10) + "px")
         .style("display", "block");
 
-        changeHoverDisplay(event, buttonID, title, abbv);
+        // Call changeHoverDisplay with the buttonId
+        changeHoverDisplay(event, buttonId, title, abbv);
+      }
+      });
+      //display country on hover
+      d3.select("#map-svg")
+        .selectAll("path")
+        .on("mouseover", function (event, d) {
+          var title = d3.select(this).attr("title");
+          var abbv = d3.select(this).attr("id");
+
+        tooltip.style("opacity", 1)
+        .html(title)
+        .style("left", (event.pageX - tooltip.node().offsetWidth / 2) + "px")
+        .style("top", (event.pageY - tooltip.node().offsetHeight - 10) + "px")
+        .style("display", "block");
 
         })
         .on("mousemove", function (event, d) {
@@ -1449,8 +1471,7 @@
             );
         })
         .on("mouseout", function () {
-          tooltip.style("opacity", 0)
-            .style("display", "none");
+          tooltip.style("opacity", 0).style("display", "none");
         });
 
     </script>
