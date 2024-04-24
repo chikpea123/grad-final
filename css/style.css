@@ -13,7 +13,7 @@
   position: relative;
 }
 
-path:hover {
+#map-svg > path:hover {
   fill: white;
 }
 
