@@ -82,22 +82,22 @@
       <div class="option-guide">
         <ul>
           <li>
-            <button id ="BMI" class="option-button" onclick="changeColor(event)">
+            <button id ="BMI_Button" class="option-button" onclick="changeColor(event)">
               Big Mac Index
             </button>
           </li>
           <li>
-            <button id="GDP" class="option-button" onclick="changeColor(event)">
+            <button id="GDP_Button" class="option-button" onclick="changeColor(event)">
               GDP
             </button>
           </li>
           <li>
-            <button id="LR" class="option-button" onclick="changeColor(event)">
+            <button id="LR_Button" class="option-button" onclick="changeColor(event)">
               Literacy Rate
             </button>
           </li>
           <li>
-            <button id="IR" class="option-button" onclick="changeColor(event)">
+            <button id="IR_Button" class="option-button" onclick="changeColor(event)">
               Inflation Rate
             </button>
           </li>
@@ -1432,9 +1432,6 @@
 
         // Call changeHoverDisplay with the buttonId
         changeHoverDisplay(event, buttonId, title, abbv);
-
-        // Optionally, change the color of the clicked button
-        changeColor(event.target);
       }
       });
       //display country on hover
@@ -1450,7 +1447,6 @@
         .style("top", (event.pageY - tooltip.node().offsetHeight - 10) + "px")
         .style("display", "block");
 
-        changeHoverDisplay(event, "GDP_Button", title, abbv);
         })
         .on("mousemove", function (event, d) {
           tooltip
