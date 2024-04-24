@@ -1406,6 +1406,7 @@
         .selectAll("path")
         .on("mouseover", function (event, d) {
           var title = d3.select(this).attr("title");
+          var abbv = d3.select(this).attr("id");
 
           // Create a tooltip element
           var tooltip = document.createElement("div");
