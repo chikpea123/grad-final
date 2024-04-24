@@ -71,14 +71,7 @@
         });
         event.target.classList.add("clicked");
 
-        d3.select("#map-svg")
-          .selectAll("path")
-          .on("mouseover", function (event, d) {
-            var title = d3.select(this).attr("title");
-            var abbv = d3.select(this).attr("id");
-
             changeHoverDisplay(event, buttonId, title, abbv);
-          });
         }
     </script>
   </head>
