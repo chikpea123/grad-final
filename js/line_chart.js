@@ -5,7 +5,7 @@ const margin = { top: 30, right: 30, bottom: 65, left: 65 },
 
 // append the svg object to the body of the page
 //Read the data
-function setData(id, country_code, location, title) {
+function setData(id, country_code, location, title, date_parse) {
   d3.select(id).selectAll("svg").remove();
   let formatter = Intl.NumberFormat("en", { notation: "compact" });
 
@@ -23,7 +23,7 @@ function setData(id, country_code, location, title) {
     // When reading the csv, I must format variables:
     function (d) {
       return {
-        date: d3.timeParse("%Y")(d.date),
+        date: d3.timeParse(date_parse)(d.date),
         value: d.val,
       };
     },
@@ -49,6 +49,7 @@ function setData(id, country_code, location, title) {
         .append("g")
         .attr("transform", `translate(0, ${height})`)
         .call(d3.axisBottom(x));
+
       // Add Y axis
       const y = d3
         .scaleLinear()
@@ -137,18 +138,21 @@ function setData(id, country_code, location, title) {
         d3.select(this).style("stroke", "black").style("opacity", 1);
         console.log(calcHeight());
       };
+
       let mousemove = function (event, d) {
+        const timeFormat = d3.utcFormat(date_parse);
         tooltip
           .html(
             "y: " +
               formatter.format(d.value) +
               "<br/>" +
               "x: " +
-              d.date.getFullYear(),
+              timeFormat(d.date),
           )
           .style("left", event.clientX - vw(20) + 50 + "px")
           .style("top", event.clientY + calcHeight() + "px");
       };
+
       let mouseleave = function (d) {
         tooltip.style("opacity", 0).style("display", "none");
         d3.select(this).style("stroke", "none");
