@@ -11,13 +11,6 @@
         document.getElementById("overlay").classList.toggle("hidden");
       }
 
-      function changeColor(event) {
-        var buttons = document.querySelectorAll(".option-button");
-        buttons.forEach(function (button) {
-          button.classList.remove("clicked");
-        });
-        event.target.classList.add("clicked");
-      }
 
       function changeHoverDisplay(event, indicator, country, abbv) {
         var csvFilePath;
@@ -70,6 +63,23 @@
           console.error("Tooltip element not found!");
         }
       }
+    
+      function changeColor(event, buttonId) {
+        var buttons = document.querySelectorAll(".option-button");
+        buttons.forEach(function (button) {
+        button.classList.remove("clicked");
+        });
+        event.target.classList.add("clicked");
+
+        d3.select("#map-svg")
+          .selectAll("path")
+          .on("mouseover", function (event, d) {
+            var title = d3.select(this).attr("title");
+            var abbv = d3.select(this).attr("id");
+
+            changeHoverDisplay(event, buttonId, title, abbv);
+          });
+        }
     </script>
   </head>
   <body>
@@ -81,13 +91,13 @@
             <button
               id="BMI_Button"
               class="option-button"
-              onclick="changeColor(event)"
+              onclick="changeColor(event, 'BMI_Button')"
             >
               Big Mac Index
             </button>
           </li>
           <li>
-            <button id="GDP_Button" class="option-button" onclick="(function(){changeColor(event);})()">
+            <button id="GDP_Button" class="option-button" onclick="changeColor(event, 'GDP_Button')">
               GDP
             </button>
           </li>
@@ -1424,25 +1434,7 @@
         .attr("class", "tooltip")
         .style("opacity", 0);
 
-      //determine which button option is selected
-      document.querySelector(".option-guide ul").addEventListener("click", function(event) {
-        if (event.target.classList.contains("option-button")) {
-        var buttonId = event.target.id;
-        // Retrieve title and abbv from the currently hovered country
-        var title = document.querySelector("#map-svg path:hover").getAttribute("title");
-        var abbv = document.querySelector("#map-svg path:hover").getAttribute("id");
 
-        // Show tooltip
-        tooltip.style("opacity", 1)
-        .html(title)
-        .style("left", (event.pageX - tooltip.node().offsetWidth / 2) + "px")
-        .style("top", (event.pageY - tooltip.node().offsetHeight - 10) + "px")
-        .style("display", "block");
-
-        // Call changeHoverDisplay with the buttonId
-        changeHoverDisplay(event, buttonId, title, abbv);
-      }
-      });
       //display country on hover
       d3.select("#map-svg")
         .selectAll("path")
@@ -1455,6 +1447,7 @@
         .style("left", (event.pageX - tooltip.node().offsetWidth / 2) + "px")
         .style("top", (event.pageY - tooltip.node().offsetHeight - 10) + "px")
         .style("display", "block");
+
 
         })
         .on("mousemove", function (event, d) {
