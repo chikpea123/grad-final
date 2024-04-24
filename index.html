@@ -1412,21 +1412,19 @@
       var tooltip = d3.select("body") 
       .append("div") 
       .attr("class", "tooltip") 
-      .style("opacity", 0); 
+      .style("display", "none");
       //display country on hover
       d3.select("#map-svg")
         .selectAll("path")
-        .on("mouseover", function (event, d) {
+        .on("mouseover", function (event, d) { 
         var title = d3.select(this).attr("title");
         var abbv = d3.select(this).attr("id");
 
         tooltip.style("opacity", 1)
         .html(title)
         .style("left", (event.pageX - tooltip.node().offsetWidth / 2) + "px")
-        .style("top", (event.pageY - tooltip.node().offsetHeight - 10) + "px");
-
-        tooltip.style("opacity", 1)
-        .html(title);
+        .style("top", (event.pageY - tooltip.node().offsetHeight - 10) + "px")
+        .style("display", "block");
 
         changeHoverDisplay(event, "GDP_Button", title, abbv);
         })
@@ -1435,7 +1433,8 @@
           .style("top", (event.pageY - tooltip.node().offsetHeight - 10) + "px");
         })
         .on("mouseout", function () {
-          d3.select(".tooltip").remove();
+          tooltip.style("opacity", 0)
+            .style("display", "none");
         });
 
     </script> 
