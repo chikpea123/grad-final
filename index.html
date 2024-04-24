@@ -1670,17 +1670,26 @@ var rectangularButton = container2.append('button')
 // Add click event to the rectangular button
 rectangularButton.on("click", function(e) {
   var country1 = dropdownButton1.property("value");
-  var country2 = dropdownButton2.property("value");
   // Remove existing text div if any
-  d3.select("#selectedColorText").remove();
   // Append text to a new div when the button is clicked
-  d3.select("#dataviz_builtWithD3").append("div")
+  d3.select("#overlay").append("div")
     .attr("id", "selectedColorText")
-    .text("Country #1: " + country1 + ", Country #2: " + country2)
+    .text("Country #1: " + country1)
     .style("margin", "10px auto") // Set margin to center the new div horizontally
     .style("text-align", "center"); // Set text-align to center the text
 });
 
+ // Initialize the container for the second set of elements
+var container3 = d3.select("#overlay").append("div")
+  .style("position", "absolute")
+    .style("top", "0")
+    .style("right", "0");
+
+var header = container3.append('text')
+    .text("Select another country to compare")
+    .style("font", "Lato")
+    .style("margin-top", "70px")
+    .style("margin-right", "30px")
 
 
       //display country on hover
