@@ -1,7 +1,7 @@
 // set the dimensions and margins of the graph
-const margin = { top: 80, right: 30, bottom: 80, left: 110 },
-  width = 580 - margin.left - margin.right,
-  height = 450 - margin.top - margin.bottom;
+const margin = { top: 30, right: 30, bottom: 65, left: 65 },
+  width = 535 - margin.left - margin.right,
+  height = 485 - margin.top - margin.bottom;
 
 // append the svg object to the body of the page
 //Read the data
@@ -62,7 +62,7 @@ function setData(id, country_code, location, title) {
 
       svg
         .append("g")
-        .call(d3.axisLeft(y).tickFormat((d) => formatter.format(d)));
+        .call(d3.axisLeft(y.nice()).tickFormat((d) => formatter.format(d)));
       // Add the line
       svg
         .append("path")
