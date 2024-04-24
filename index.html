@@ -1632,7 +1632,7 @@ var allGroup = [
     // Initialize the button
 var dropdownButton1 = container.append('select')
     .style("cursor", "pointer")
-    .style("margin-top", "25px")
+    .style("margin-top", "30px")
     .style("margin-right", "20px")
     .style("border-radius", "20px") // Set border radius for rounded edges
     .style("border", "2px solid black")
@@ -1653,25 +1653,26 @@ var container2 = d3.select("#overlay").append("div")
   .style("position", "absolute")
     .style("top", "0")
     .style("right", "0");
-
-// Initialize the rectangular button
+    
+    // Initialize the rectangular button
 var rectangularButton = container2.append('button')
   .text("Compare")
   .style("margin-top", "70px")
   .style("margin-right", "30px")
   .style("padding", "10px 20px") // Add padding for button
   .style("border", "none") // Add border for button
-  .style("background-color", "rgb(35, 59, 59, 0.5)")// Add background color for button
+  .style("background-color", "#294545")// Add background color for button
   .style("color", "white")
   .style("font", "Lato")
+  .style("border-radius", "7px")
   .style("cursor", "pointer");
-  
 
 // Add click event to the rectangular button
 rectangularButton.on("click", function(e) {
   var country1 = dropdownButton1.property("value");
   // Remove existing text div if any
   // Append text to a new div when the button is clicked
+  rectangularButton.style("background-color", "#6BB9B9");
   d3.select("#overlay").append("div")
     .attr("id", "selectedColorText")
     .text("Country #1: " + country1)
@@ -1685,11 +1686,13 @@ var container3 = d3.select("#overlay").append("div")
     .style("top", "0")
     .style("right", "0");
 
-var header = container3.append('text')
+var header = container3.append('button')
+    .style("background-color", "white")
+    .style("border", "none")
     .text("Select another country to compare")
     .style("font", "Lato")
-    .style("margin-top", "70px")
-    .style("margin-right", "30px")
+    .style("margin-top", "5px")
+    .style("margin-right", "30px");
 
 
       //display country on hover
