@@ -1409,36 +1409,43 @@
       </div>
     </div>
     <script>
-      var tooltip = d3.select("body") 
-      .append("div") 
-      .attr("class", "tooltip") 
-      .style("opacity", 0); 
+      var tooltip = d3
+        .select("body")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
       //display country on hover
       d3.select("#map-svg")
         .selectAll("path")
         .on("mouseover", function (event, d) {
-        var title = d3.select(this).attr("title");
-        var abbv = d3.select(this).attr("id");
+          var title = d3.select(this).attr("title");
+          var abbv = d3.select(this).attr("id");
 
-        tooltip.style("opacity", 1)
-        .html(title)
-        .style("left", (event.pageX - tooltip.node().offsetWidth / 2) + "px")
-        .style("top", (event.pageY - tooltip.node().offsetHeight - 10) + "px");
+          tooltip
+            .style("opacity", 1)
+            .html(title)
+            .style("left", event.pageX - tooltip.node().offsetWidth / 2 + "px")
+            .style(
+              "top",
+              event.pageY - tooltip.node().offsetHeight - 10 + "px",
+            );
 
-        tooltip.style("opacity", 1)
-        .html(title);
+          tooltip.style("opacity", 1).html(title);
 
-        changeHoverDisplay(event, "GDP_Button", title, abbv);
+          changeHoverDisplay(event, "GDP_Button", title, abbv);
         })
-        .on("mousemove", function(event, d) {
-          tooltip.style("left", (event.pageX - tooltip.node().offsetWidth / 2) + "px")
-          .style("top", (event.pageY - tooltip.node().offsetHeight - 10) + "px");
+        .on("mousemove", function (event, d) {
+          tooltip
+            .style("left", event.pageX - tooltip.node().offsetWidth / 2 + "px")
+            .style(
+              "top",
+              event.pageY - tooltip.node().offsetHeight - 10 + "px",
+            );
         })
         .on("mouseout", function () {
           d3.select(".tooltip").remove();
         });
-
-    </script> 
+    </script>
     <!-- line chart function -->
     <script src="js/line_chart.js"></script>
 
