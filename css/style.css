@@ -1,5 +1,8 @@
 #world-map {
   background-color: rgb(47, 79, 79);
+
+  /* at least svg width */
+  min-width: 1010px;
   width: 100%;
   height: 100vh;
   position: relative;
