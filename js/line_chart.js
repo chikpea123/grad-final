@@ -135,7 +135,7 @@ function setData(id, country_code, location, title) {
         .data(data)
         .enter()
         .append("circle")
-        .attr("r", 4)
+        .attr("r", 3)
         .attr("fill", "steelblue")
         .attr("stroke", "steelblue")
         .attr("cx", function (d) {
