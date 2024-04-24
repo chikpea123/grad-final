@@ -697,9 +697,12 @@ var container2 = d3.select("#dataviz_builtWithD3").append("div")
 var rectangularButton = container2.append('button')
   .text("Compare")
   .style("padding", "10px 20px") // Add padding for button
-  .style("border", "1px solid black") // Add border for button
-  .style("background-color", "lightblue") // Add background color for button
+  .style("border", "none") // Add border for button
+  .style("background-color", "rgb(35, 59, 59, 0.5)")// Add background color for button
+  .style("color", "white")
+  .style("font", "Lato")
   .style("cursor", "pointer");
+  
 
 // Add click event to the rectangular button
 rectangularButton.on("click", function(e) {
@@ -717,19 +720,11 @@ rectangularButton.on("click", function(e) {
 
 </script>
 
-    <script>
-      //get country onclick
-      d3.select("#map-svg")
-        .selectAll("path")
-        .on("click", function (e) {
-          setData(
-            "#GDP",
-            e.target.attributes.id.value,
-            "GDP",
-            "GDP per capita",
-          );
-        });
-    </script>
+<script>
+
+// add side-by side scatter plots when compare button is clicked
+
+</script>
 
 
 </body>
