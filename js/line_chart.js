@@ -129,14 +129,12 @@ function setData(id, country_code, location, title, date_parse) {
       }
 
       function calcHeight() {
-        console.log(document.getElementById("overlay").scrollTop);
         return document.getElementById("overlay").scrollTop;
       }
       // Three function that change the tooltip when user hover / move / leave a cell
       let mouseover = function (d) {
         tooltip.style("opacity", 1).style("display", "block");
         d3.select(this).style("stroke", "black").style("opacity", 1);
-        console.log(calcHeight());
       };
 
       let mousemove = function (event, d) {
