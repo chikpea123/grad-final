@@ -44,11 +44,11 @@ function setData(id, country_code, location, title) {
           }),
         )
         .range([0, width]);
+
       svg
         .append("g")
         .attr("transform", `translate(0, ${height})`)
         .call(d3.axisBottom(x));
-
       // Add Y axis
       const y = d3
         .scaleLinear()
@@ -63,6 +63,30 @@ function setData(id, country_code, location, title) {
       svg
         .append("g")
         .call(d3.axisLeft(y.nice()).tickFormat((d) => formatter.format(d)));
+
+      //add x grid
+      svg
+        .append("g")
+        .attr("transform", `translate(0, ${height})`)
+        .style("opacity", 0.2)
+        .call(
+          d3
+            .axisBottom(x)
+            .tickSize(-1 * height)
+            .tickFormat(""),
+        );
+
+      //add y grid
+      svg
+        .append("g")
+        .style("opacity", 0.2)
+        .call(
+          d3
+            .axisLeft(y.nice())
+            .tickSize(-1 * width)
+            .tickFormat(""),
+        );
+
       // Add the line
       svg
         .append("path")

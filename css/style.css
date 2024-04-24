@@ -140,6 +140,10 @@ body {
   align-items: center;
 }
 
+#charts-title {
+  margin-bottom: 60px;
+}
+
 #GDP,
 #Uneployment,
 #Literacy {
