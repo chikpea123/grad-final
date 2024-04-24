@@ -1402,51 +1402,54 @@
     <script>
       //display country on hover
       d3.select("#map-svg")
-        .selectAll("path")
-        .on("mouseover", function (event, d) {
-          var title = d3.select(this).attr("title");
-          var abbv = d3.select(this).attr("id");
+      .selectAll("path")
+      .on("mouseover", function (event, d) {
+      var title = d3.select(this).attr("title");
+      var abbv = d3.select(this).attr("id");
 
-          // Create a tooltip element
-          var tooltip = document.createElement("div");
-          tooltip.classList.add("tooltip");
-          tooltip.textContent = title;
+      // Create a tooltip element
+      var tooltip = document.createElement("div");
+      tooltip.classList.add("tooltip");
+      tooltip.textContent = title;
 
-          var bbox = this.getBBox();
-          var centerX = bbox.x + bbox.width / 2;
-          var centerY = bbox.y + bbox.height / 2;
+      var bbox = this.getBBox();
+      var centerX = bbox.x + bbox.width / 2;
+      var centerY = bbox.y + bbox.height / 2;
 
-          tooltip.style.position = "absolute";
-          tooltip.style.left = event.pageX - tooltip.offsetWidth / 2 + "px";
-          tooltip.style.top = event.pageY - tooltip.offsetHeight / 2 + "px";
+      tooltip.style.position = "absolute";
+      tooltip.style.left = event.pageX - tooltip.offsetWidth / 2 + "px";
+      tooltip.style.top = event.pageY - tooltip.offsetHeight / 2 + "px";
 
-          let mouseover = function (d) {
-            tooltip.style("opacity", 1).style("display", "block");
-            d3.select(this).style("stroke", "black").style("opacity", 1);
-            console.log(calcHeight());
-          };
-          let mousemove = function (event, d) {
-          tooltip
+      document.body.appendChild(tooltip);
+      changeHoverDisplay(event, "GDP_Button", title, abbv);
+
+      let mouseover = function (event, d) {
+        tooltip.style("opacity", 1).style("display", "block");
+        d3.select(this).style("stroke", "black").style("opacity", 1);
+        console.log(calcHeight());
+      };
+
+      let mousemove = function (event, d) {
+        tooltip
           .html(
-            "Country: " + d.name + "<br/>"
+          "Country: " + d.name + "<br/>"
           )
-          .style("left", event.clientX - vw(20) + 50 + "px")
-          .style("top", event.clientY + calcHeight() + "px");
-          };
+        .style("left", event.clientX - vw(20) + 50 + "px")
+        .style("top", event.clientY + calcHeight() + "px");
+      };
 
-          let mouseleave = function (d) {
-          tooltip.style("opacity", 0).style("display", "none");
-          d3.select(this).style("stroke", "none");
-        };
+      let mouseleave = function (event, d) {
+        tooltip.style("opacity", 0).style("display", "none");
+        d3.select(this).style("stroke", "none");
+        d3.select(".tooltip").remove();
+      };
 
-          document.body.appendChild(tooltip);
-          changeHoverDisplay(event, "GDP_Button", title, abbv);
-        })
-        .on("mouseout", function () {
-          d3.select(".tooltip").remove();
-        });
-    </script>
-
+      d3.select(this)
+      .on("mouseover", mouseover)
+      .on("mousemove", mousemove)
+      .on("mouseleave", mouseleave);
+    });
+    </script> 
     <!-- line chart function -->
     <script src="js/line_chart.js"></script>
 
