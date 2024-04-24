@@ -82,22 +82,22 @@
       <div class="option-guide">
         <ul>
           <li>
-            <button class="option-button" onclick="changeColor(event)">
+            <button id ="BMI" class="option-button" onclick="changeColor(event)">
               Big Mac Index
             </button>
           </li>
           <li>
-            <button class="option-button" onclick="changeColor(event)">
+            <button id="GDP" class="option-button" onclick="changeColor(event)">
               GDP
             </button>
           </li>
           <li>
-            <button class="option-button" onclick="changeColor(event)">
+            <button id="LR" class="option-button" onclick="changeColor(event)">
               Literacy Rate
             </button>
           </li>
           <li>
-            <button class="option-button" onclick="changeColor(event)">
+            <button id="IR" class="option-button" onclick="changeColor(event)">
               Inflation Rate
             </button>
           </li>
@@ -1414,6 +1414,29 @@
         .append("div")
         .attr("class", "tooltip")
         .style("opacity", 0);
+
+      //determine which button option is selected
+      document.querySelector(".option-guide ul").addEventListener("click", function(event) {
+        if (event.target.classList.contains("option-button")) {
+        var buttonId = event.target.id;
+        // Retrieve title and abbv from the currently hovered country
+        var title = document.querySelector("#map-svg path:hover").getAttribute("title");
+        var abbv = document.querySelector("#map-svg path:hover").getAttribute("id");
+
+        // Show tooltip
+        tooltip.style("opacity", 1)
+        .html(title)
+        .style("left", (event.pageX - tooltip.node().offsetWidth / 2) + "px")
+        .style("top", (event.pageY - tooltip.node().offsetHeight - 10) + "px")
+        .style("display", "block");
+
+        // Call changeHoverDisplay with the buttonId
+        changeHoverDisplay(event, buttonId, title, abbv);
+
+        // Optionally, change the color of the clicked button
+        changeColor(event.target);
+      }
+      });
       //display country on hover
       d3.select("#map-svg")
         .selectAll("path")
@@ -1427,7 +1450,7 @@
         .style("top", (event.pageY - tooltip.node().offsetHeight - 10) + "px")
         .style("display", "block");
 
-          changeHoverDisplay(event, "GDP_Button", title, abbv);
+        changeHoverDisplay(event, "GDP_Button", title, abbv);
         })
         .on("mousemove", function (event, d) {
           tooltip
