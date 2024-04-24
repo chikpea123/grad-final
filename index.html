@@ -18,37 +18,48 @@
         });
         event.target.classList.add("clicked");
       }
-      
+
       function changeHoverDisplay(event, indicator, country, abbv) {
         var csvFilePath;
 
         switch (indicator) {
           case "GDP_Button":
-            csvFilePath = "https://raw.githubusercontent.com/chikpea123/grad-final/main/dataset/GDP/" + abbv +".csv";
+            csvFilePath =
+              "https://raw.githubusercontent.com/chikpea123/grad-final/main/dataset/GDP/" +
+              abbv +
+              ".csv";
             d3.csv(csvFilePath)
-              .then(function(data){
-                const gdp2022 = data.find(entry => entry.date === "2022").val;
-                console.log("Country Name: " + country + ", GDP (2022): " + gdp2022);
-                })
-              .catch(function(error) {
-                console.error('Error fetching data:', error);
-                });
+              .then(function (data) {
+                const gdp2022 = data.find((entry) => entry.date === "2022").val;
+                console.log(
+                  "Country Name: " + country + ", GDP (2022): " + gdp2022,
+                );
+              })
+              .catch(function (error) {
+                console.error("Error fetching data:", error);
+              });
             break;
           case "BMI":
-            csvFilePath = "https://raw.githubusercontent.com/chikpea123/grad-final/main/dataset/big_mac_index.csv";
+            csvFilePath =
+              "https://raw.githubusercontent.com/chikpea123/grad-final/main/dataset/big_mac_index.csv";
             d3.csv(csvFilePath)
-              .then(function(data){
-                const entry2022 = data.find(entry => entry.date === "2022-01-01" && entry.iso_a3 === abbv);
-                if (entry2022 && typeof entry2022.USD !== 'undefined') {
+              .then(function (data) {
+                const entry2022 = data.find(
+                  (entry) =>
+                    entry.date === "2022-01-01" && entry.iso_a3 === abbv,
+                );
+                if (entry2022 && typeof entry2022.USD !== "undefined") {
                   const bmi2022 = entry2022.USD;
                   console.log("Big Mac Index USD (2022): " + bmi2022);
                 } else {
-                  console.error("No valid data found for the specified conditions.");
+                  console.error(
+                    "No valid data found for the specified conditions.",
+                  );
                 }
-                })
-              .catch(function(error) {
-                console.error('Error fetching data:', error);
-                });
+              })
+              .catch(function (error) {
+                console.error("Error fetching data:", error);
+              });
             break;
           default:
             break;
@@ -63,9 +74,6 @@
           console.error("Tooltip element not found!");
         }
       }
-
-
-
     </script>
   </head>
   <body>
@@ -1397,6 +1405,7 @@
         <div id="GDP"></div>
         <div id="Unemployment"></div>
         <div id="Literacy"></div>
+        <div id="BigMacIndex"></div>
       </div>
     </div>
     <script>
@@ -1443,18 +1452,28 @@
             e.target.attributes.id.value,
             "GDP",
             "GDP (per capita)",
+            "%Y",
           );
           setData(
             "#Unemployment",
             e.target.attributes.id.value,
             "Unemployment",
             "Unemployment Rate (%)",
+            "%Y",
           );
           setData(
             "#Literacy",
             e.target.attributes.id.value,
             "Literacy",
             "Literacy Rate (%)",
+            "%Y",
+          );
+          setData(
+            "#BigMacIndex",
+            e.target.attributes.id.value,
+            "BigMacIndex",
+            "Big Mac Price (USD)",
+            "%Y-%M-%d",
           );
           document.getElementById("charts-title").innerText =
             e.target.attributes.title.value;
