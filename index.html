@@ -1409,10 +1409,11 @@
       </div>
     </div>
     <script>
-      var tooltip = d3.select("body") 
-      .append("div") 
-      .attr("class", "tooltip") 
-      .style("display", "none");
+      var tooltip = d3
+        .select("body")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
       //display country on hover
       d3.select("#map-svg")
         .selectAll("path")
@@ -1426,18 +1427,21 @@
         .style("top", (event.pageY - tooltip.node().offsetHeight - 10) + "px")
         .style("display", "block");
 
-        changeHoverDisplay(event, "GDP_Button", title, abbv);
+          changeHoverDisplay(event, "GDP_Button", title, abbv);
         })
-        .on("mousemove", function(event, d) {
-          tooltip.style("left", (event.pageX - tooltip.node().offsetWidth / 2) + "px")
-          .style("top", (event.pageY - tooltip.node().offsetHeight - 10) + "px");
+        .on("mousemove", function (event, d) {
+          tooltip
+            .style("left", event.pageX - tooltip.node().offsetWidth / 2 + "px")
+            .style(
+              "top",
+              event.pageY - tooltip.node().offsetHeight - 10 + "px",
+            );
         })
         .on("mouseout", function () {
           tooltip.style("opacity", 0)
             .style("display", "none");
         });
-
-    </script> 
+    </script>
     <!-- line chart function -->
     <script src="js/line_chart.js"></script>
 
