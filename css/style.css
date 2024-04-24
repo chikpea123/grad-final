@@ -83,7 +83,8 @@ body {
   top: 0;
   background-color: white;
   transition: 0.5s;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 #overlay.hidden {
