@@ -181,6 +181,7 @@
                   console.log("Maximum GDP for 2022:", maxGDP);
                   const colorScale = createColorScale(minGDP, maxGDP, "GDP");
                   colorMap(colorScale, indicator);
+                  addLegend(colorScale);
               });
             break;
           case "BMI_Button":
@@ -268,9 +269,7 @@
             .domain([min, max])
             .range(["white", "#ad0787"]);
             break;
-        }
-            
-          
+        }              
       }
 
       function colorMap(colorScale, indicator) {
