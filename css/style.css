@@ -9,9 +9,8 @@
 }
 
 
-
 #map-svg > path {
-  stroke: white;
+  stroke: rgb(41, 74, 85);
   /*fill: lightblue;*/
   stroke-width: 1px;
   position: relative;
