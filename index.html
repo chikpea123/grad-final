@@ -32,6 +32,7 @@
                         .style("display", "block");
                 })
                 .catch(function (error) {
+                  var tooltipContent = "Country: " + title + "<br>GDP (2022): " + "nan";
                     console.error("Error fetching data:", error);
                 });
               })
@@ -57,6 +58,11 @@
                         .style("display", "block");
                 })
                 .catch(function (error) {
+                    var tooltipContent = "Country: " + title + "<br>Big Mac Index (2022): " + "nan";
+                    tooltip.html(tooltipContent)
+                        .style("left", (event.pageX - tooltip.node().offsetWidth / 2) + "px")
+                        .style("top", (event.pageY - tooltip.node().offsetHeight - 10) + "px")
+                        .style("display", "block");
                     console.error("Error fetching data:", error);
                 });
               })
@@ -64,7 +70,6 @@
             tooltip.style("display", "none");
               });
             break;
-          
           case "LR_Button":
             d3.select("#map-svg")
               .selectAll("path")
@@ -83,6 +88,11 @@
                         .style("display", "block");
                 })
                 .catch(function (error) {
+                    var tooltipContent = "Country: " + title + "<br>Literacy Rate (2022): " + "nan";
+                    tooltip.html(tooltipContent)
+                        .style("left", (event.pageX - tooltip.node().offsetWidth / 2) + "px")
+                        .style("top", (event.pageY - tooltip.node().offsetHeight - 10) + "px")
+                        .style("display", "block");
                     console.error("Error fetching data:", error);
                 });
               })
@@ -90,7 +100,6 @@
             tooltip.style("display", "none");
               });
             break;
-          
           case "Unemployment_Button":
             d3.select("#map-svg")
               .selectAll("path")
@@ -109,6 +118,11 @@
                         .style("display", "block");
                 })
                 .catch(function (error) {
+                    var tooltipContent = "Country: " + title + "<br>Unemployment Rate (2022): " + "nan";
+                    tooltip.html(tooltipContent)
+                        .style("left", (event.pageX - tooltip.node().offsetWidth / 2) + "px")
+                        .style("top", (event.pageY - tooltip.node().offsetHeight - 10) + "px")
+                        .style("display", "block");
                     console.error("Error fetching data:", error);
                 });
               })
