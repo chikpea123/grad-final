@@ -285,12 +285,12 @@
                             // Get the country abbreviation (ISO 3166-1 alpha-3 code) for this path
                             const countryCode = d3.select(this).attr("id");
                             // Find the corresponding country data
-                            const countryData = data.find(d => d["iso_a3"] === countryCode);
-                            if(countryData && countryData.hasOwnProperty("2022-01-01")) {
-                                const bmiValue = parseFloat(countryData["2022-01-01"]);
-                                d3.select(this).style("fill", colorScale(bmiValue));
+                            const countryData = data.find(d => d["iso_a3"] === countryCode && d["date"] === "2022-01-01" && d["currency_code"] === "USD");
+                            if(countryData && countryData.hasOwnProperty("USD")) {
+                              const bmiValue = parseFloat(countryData["USD"]);
+                              d3.select(this).style("fill", colorScale(bmiValue));
                             } else {
-                                console.log("No Big Mac Index data found for country:", countryCode);
+                              console.log("No Big Mac Index data found for country:", countryCode);
                             }
                         });
                 })
