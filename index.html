@@ -11,59 +11,116 @@
         document.getElementById("overlay").classList.toggle("hidden");
       }
 
-
       function changeHoverDisplay(event, indicator, country, abbv) {
         var csvFilePath;
-
         switch (indicator) {
           case "GDP_Button":
-            csvFilePath =
-              "https://raw.githubusercontent.com/chikpea123/grad-final/main/dataset/GDP/" +
-              abbv +
-              ".csv";
-            d3.csv(csvFilePath)
-              .then(function (data) {
-                const gdp2022 = data.find((entry) => entry.date === "2022").val;
+            d3.select("#map-svg")
+              .selectAll("path")
+              .on("mouseover", function (event, d) {
+              var title = d3.select(this).attr("title");
+              var abbv = d3.select(this).attr("id");
+              var csvFilePath = "https://raw.githubusercontent.com/chikpea123/grad-final/main/dataset/GDP/" + abbv + ".csv";
+            
+              d3.csv(csvFilePath)
+                .then(function (data) {
+                    const GDP2022 = data.find((entry) => entry.date === "2022").val;
+                    var tooltipContent = "Country: " + title + "<br>GDP (2022): " + GDP2022;
+                    tooltip.html(tooltipContent)
+                        .style("left", (event.pageX - tooltip.node().offsetWidth / 2) + "px")
+                        .style("top", (event.pageY - tooltip.node().offsetHeight - 10) + "px")
+                        .style("display", "block");
+                })
+                .catch(function (error) {
+                    console.error("Error fetching data:", error);
+                });
               })
-              .catch(function (error) {
-                console.error("Error fetching data:", error);
+              .on("mouseout", function () {
+            tooltip.style("display", "none");
               });
             break;
-          case "BMI":
-            csvFilePath =
-              "https://raw.githubusercontent.com/chikpea123/grad-final/main/dataset/big_mac_index.csv";
-            d3.csv(csvFilePath)
-              .then(function (data) {
-                const entry2022 = data.find(
-                  (entry) =>
-                    entry.date === "2022-01-01" && entry.iso_a3 === abbv,
-                );
-                if (entry2022 && typeof entry2022.USD !== "undefined") {
-                  const bmi2022 = entry2022.USD;
-                } else {
-                  console.error(
-                    "No valid data found for the specified conditions.",
-                  );
-                }
+          case "BMI_Button":
+            d3.select("#map-svg")
+              .selectAll("path")
+              .on("mouseover", function (event, d) {
+              var title = d3.select(this).attr("title");
+              var abbv = d3.select(this).attr("id");
+              var csvFilePath = "https://raw.githubusercontent.com/chikpea123/grad-final/main/dataset/BigMacIndex/" + abbv + ".csv";
+            
+              d3.csv(csvFilePath)
+                .then(function (data) {
+                    const BMI2022 = data.find((entry) => entry.date === "2022-01-01").val;
+                    var tooltipContent = "Country: " + title + "<br>Big Mac Index (2022): " + BMI2022;
+                    tooltip.html(tooltipContent)
+                        .style("left", (event.pageX - tooltip.node().offsetWidth / 2) + "px")
+                        .style("top", (event.pageY - tooltip.node().offsetHeight - 10) + "px")
+                        .style("display", "block");
+                })
+                .catch(function (error) {
+                    console.error("Error fetching data:", error);
+                });
               })
-              .catch(function (error) {
-                console.error("Error fetching data:", error);
+              .on("mouseout", function () {
+            tooltip.style("display", "none");
+              });
+            break;
+          
+          case "LR_Button":
+            d3.select("#map-svg")
+              .selectAll("path")
+              .on("mouseover", function (event, d) {
+              var title = d3.select(this).attr("title");
+              var abbv = d3.select(this).attr("id");
+              var csvFilePath = "https://raw.githubusercontent.com/chikpea123/grad-final/main/dataset/Literacy/" + abbv + ".csv";
+            
+              d3.csv(csvFilePath)
+                .then(function (data) {
+                    const LR2022 = data.find((entry) => entry.date === "2022").val;
+                    var tooltipContent = "Country: " + title + "<br>Literacy Rate (2022): " + LR2022;
+                    tooltip.html(tooltipContent)
+                        .style("left", (event.pageX - tooltip.node().offsetWidth / 2) + "px")
+                        .style("top", (event.pageY - tooltip.node().offsetHeight - 10) + "px")
+                        .style("display", "block");
+                })
+                .catch(function (error) {
+                    console.error("Error fetching data:", error);
+                });
+              })
+              .on("mouseout", function () {
+            tooltip.style("display", "none");
+              });
+            break;
+          
+          case "Unemployment_Button":
+            d3.select("#map-svg")
+              .selectAll("path")
+              .on("mouseover", function (event, d) {
+              var title = d3.select(this).attr("title");
+              var abbv = d3.select(this).attr("id");
+              var csvFilePath = "https://raw.githubusercontent.com/chikpea123/grad-final/main/dataset/Unemployment/" + abbv + ".csv";
+            
+              d3.csv(csvFilePath)
+                .then(function (data) {
+                    const UR2022 = data.find((entry) => entry.date === "2022").val;
+                    var tooltipContent = "Country: " + title + "<br>Unemployment Rate (2022): " + UR2022;
+                    tooltip.html(tooltipContent)
+                        .style("left", (event.pageX - tooltip.node().offsetWidth / 2) + "px")
+                        .style("top", (event.pageY - tooltip.node().offsetHeight - 10) + "px")
+                        .style("display", "block");
+                })
+                .catch(function (error) {
+                    console.error("Error fetching data:", error);
+                });
+              })
+              .on("mouseout", function () {
+            tooltip.style("display", "none");
               });
             break;
           default:
             break;
         }
       }
-
-      function updateTooltip(content) {
-        var tooltip = document.querySelector(".tooltip");
-        if (tooltip) {
-          tooltip.textContent = content;
-        } else {
-          console.error("Tooltip element not found!");
-        }
-      }
-    
+      
       function changeColor(event, buttonId) {
         var buttons = document.querySelectorAll(".option-button");
         buttons.forEach(function (button) {
@@ -71,8 +128,20 @@
         });
         event.target.classList.add("clicked");
 
-            changeHoverDisplay(event, buttonId, title, abbv);
-        }
+        d3.select("#map-svg")
+        .selectAll("path")
+        .on("mouseover", function (event, d) {
+          var title = d3.select(this).attr("title");
+          var abbv = d3.select(this).attr("id");
+          tooltip.style("opacity", 1)
+          .html(title)
+          .style("left", (event.pageX - tooltip.node().offsetWidth / 2) + "px")
+          .style("top", (event.pageY - tooltip.node().offsetHeight - 10) + "px")
+          .style("display", "block");
+          changeHoverDisplay(event, buttonId, title, abbv);
+        });
+      }
+
     </script>
   </head>
   <body>
@@ -98,18 +167,18 @@
             <button
               id="LR_Button"
               class="option-button"
-              onclick="changeColor(event)"
+              onclick="changeColor(event, 'LR_Button')"
             >
               Literacy Rate
             </button>
           </li>
           <li>
             <button
-              id="IR_Button"
+              id="Unemployment_Button"
               class="option-button"
-              onclick="changeColor(event)"
+              onclick="changeColor(event, 'Unemployment_Button')"
             >
-              Inflation Rate
+              Unemployment Rate
             </button>
           </li>
         </ul>
@@ -1427,7 +1496,6 @@
         .attr("class", "tooltip")
         .style("opacity", 0);
 
-
       //display country on hover
       d3.select("#map-svg")
         .selectAll("path")
@@ -1440,7 +1508,6 @@
         .style("left", (event.pageX - tooltip.node().offsetWidth / 2) + "px")
         .style("top", (event.pageY - tooltip.node().offsetHeight - 10) + "px")
         .style("display", "block");
-
 
         })
         .on("mousemove", function (event, d) {
