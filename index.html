@@ -182,6 +182,7 @@
                   const colorScale = createColorScale(minGDP, maxGDP, "GDP");
                   colorMap(colorScale, indicator);
               });
+            break;
           case "BMI_Button":
             csvFilePath = "https://raw.githubusercontent.com/chikpea123/grad-final/main/dataset/big_mac_index.csv";
             d3.csv(csvFilePath)
@@ -197,7 +198,7 @@
                   const colorScale = createColorScale(minBMI, maxBMI, "BMI");
                   colorMap(colorScale, indicator);
               });
-              break;
+            break;
           case "LR_Button":
             csvFilePath = "https://raw.githubusercontent.com/chikpea123/grad-final/main/dataset/Literacy.csv";
             d3.csv(csvFilePath)
@@ -219,6 +220,7 @@
                   const colorScale = createColorScale(minLR, maxLR, "LR");
                   colorMap(colorScale, indicator);
               });
+              break;
           case "Unemployment_Button":
             csvFilePath = "https://raw.githubusercontent.com/chikpea123/grad-final/main/dataset/Unemployment.csv";
             d3.csv(csvFilePath)
@@ -240,13 +242,34 @@
                   const colorScale = createColorScale(minUR, maxUR, "UR");
                   colorMap(colorScale, indicator);
               });
+              break;
         }
       }
 
       function createColorScale(min, max, indicator) {
+        switch(indicator){
+          case "GDP":
             return d3.scaleLog()
             .domain([min, max])
             .range(["white", "#00008B"]);
+            break;
+          case "LR":
+            return d3.scaleLinear()
+            .domain([min, max])
+            .range(["white", "#157309"]);
+            break;
+          case "UR":
+            return d3.scaleLinear()
+            .domain([min, max])
+            .range(["white", "#490973"]);
+            break;
+          case "BMI":
+            return d3.scaleLinear()
+            .domain([min, max])
+            .range(["white", "#ad0787"]);
+            break;
+        }
+            
           
       }
 
@@ -285,7 +308,7 @@
                             // Get the country abbreviation (ISO 3166-1 alpha-3 code) for this path
                             const countryCode = d3.select(this).attr("id");
                             // Find the corresponding country data
-                            const countryData = data.find(d => d["iso_a3"] === countryCode && d["date"] === "2022-01-01" && d["currency_code"] === "USD");
+                            const countryData = data.find(d => d["iso_a3"] === countryCode && d["date"] === "2022-01-01");
                             if(countryData && countryData.hasOwnProperty("USD")) {
                               const bmiValue = parseFloat(countryData["USD"]);
                               d3.select(this).style("fill", colorScale(bmiValue));
