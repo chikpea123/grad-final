@@ -179,22 +179,81 @@
                   const maxGDP = d3.max(gdpValues);
                   console.log("Minimum GDP for 2022:", minGDP);
                   console.log("Maximum GDP for 2022:", maxGDP);
-                  const colorScale = createColorScale(minGDP, maxGDP);
+                  const colorScale = createColorScale(minGDP, maxGDP, "GDP");
+                  colorMap(colorScale, indicator);
+              });
+          
+          case "BMI_Button":
+            csvFilePath = "https://raw.githubusercontent.com/chikpea123/grad-final/main/dataset/big_mac_index.csv";
+            d3.csv(csvFilePath)
+                .then(function (data) {
+                  const bmiValues = data
+                        .filter(d => d["date"] === "2022-01-01")
+                        .map(d => parseFloat(d["USD"]))
+                        .filter(d => !isNaN(d));
+                  const minBMI = d3.min(bmiValues);
+                  const maxBMI = d3.max(bmiValues);
+                  console.log("Minimum Big Mac Index for 2022 (USD):", minBMI);
+                  console.log("Maximum Big Mac Index for 2022 (USD):", maxBMI);
+                  const colorScale = createColorScale(minBMI, maxBMI, "BMI");
+                  colorMap(colorScale, indicator);
+              });
+          case "LR_Button":
+            csvFilePath = "https://raw.githubusercontent.com/chikpea123/grad-final/main/dataset/Literacy.csv";
+            d3.csv(csvFilePath)
+                .then(function (data) {
+                  const svg = document.getElementById("map-svg");
+                    const countriesInSVG = [];
+                    svg.querySelectorAll('path[title]').forEach(path => {
+                        const countryName = path.getAttribute('title');
+                        countriesInSVG.push(countryName);
+                    });
+
+                  // Step 2: Filter out countries not present in the SVG
+                  data = data.filter(d => countriesInSVG.includes(d["Country Name"]));
+                  const lrValues = data.map(d => parseFloat(d["2022"])).filter(d => !isNaN(d));
+                  const minLR = d3.min(lrValues);
+                  const maxLR = d3.max(lrValues);
+                  console.log("Minimum Literacy Rate for 2022:", minLR);
+                  console.log("Maximum Literacy Rate for 2022:", maxLR);
+                  const colorScale = createColorScale(minLR, maxLR, "LR");
+                  colorMap(colorScale, indicator);
+              });
+          case "Unemployment_Button":
+            csvFilePath = "https://raw.githubusercontent.com/chikpea123/grad-final/main/dataset/Unemployment.csv";
+            d3.csv(csvFilePath)
+                .then(function (data) {
+                  const svg = document.getElementById("map-svg");
+                    const countriesInSVG = [];
+                    svg.querySelectorAll('path[title]').forEach(path => {
+                        const countryName = path.getAttribute('title');
+                        countriesInSVG.push(countryName);
+                    });
+
+                  // Step 2: Filter out countries not present in the SVG
+                  data = data.filter(d => countriesInSVG.includes(d["Country Name"]));
+                  const urValues = data.map(d => parseFloat(d["2022"])).filter(d => !isNaN(d));
+                  const minUR = d3.min(urValues);
+                  const maxUR = d3.max(urValues);
+                  console.log("Minimum Literacy Rate for 2022:", minUR);
+                  console.log("Maximum Literacy Rate for 2022:", maxUR);
+                  const colorScale = createColorScale(minUR, maxUR, "UR");
                   colorMap(colorScale, indicator);
               });
         }
       }
 
-      function createColorScale(min, max) {
-        return d3.scaleLinear()
-          .domain([min, max])
-          .range(["white", "#00008B"]); // Adjust colors as needed
+      function createColorScale(min, max, indicator) {
+            return d3.scaleLog()
+            .domain([min, max])
+            .range(["white", "#00008B"]);
+          
       }
 
       function colorMap(colorScale, indicator) {
         switch (indicator) {
           case "GDP_Button":
-            const csvFilePath = "https://raw.githubusercontent.com/chikpea123/grad-final/main/dataset/GDP.csv";
+            csvFilePath = "https://raw.githubusercontent.com/chikpea123/grad-final/main/dataset/GDP.csv";
             d3.csv(csvFilePath)
               .then(function(data) {
                     d3.select("#map-svg")
@@ -216,7 +275,76 @@
                     console.error("Error loading CSV file:", error);
                 });
             break;
-        } 
+          case "BMI_Button":
+            csvFilePath = "https://raw.githubusercontent.com/chikpea123/grad-final/main/dataset/big_mac_index.csv";
+            d3.csv(csvFilePath)
+              .then(function(data) {
+                    d3.select("#map-svg")
+                        .selectAll("path")
+                        .each(function() {
+                            // Get the country abbreviation (ISO 3166-1 alpha-3 code) for this path
+                            const countryCode = d3.select(this).attr("id");
+                            // Find the corresponding country data
+                            const countryData = data.find(d => d["iso_a3"] === countryCode);
+                            if(countryData && countryData.hasOwnProperty("2022-01-01")) {
+                                const bmiValue = parseFloat(countryData["2022-01-01"]);
+                                d3.select(this).style("fill", colorScale(bmiValue));
+                            } else {
+                                console.log("No Big Mac Index data found for country:", countryCode);
+                            }
+                        });
+                })
+                .catch(function(error) {
+                    console.error("Error loading CSV file:", error);
+                });
+            break;
+          case "LR_Button":
+            csvFilePath = "https://raw.githubusercontent.com/chikpea123/grad-final/main/dataset/Literacy.csv";
+              d3.csv(csvFilePath)
+                .then(function(data) {
+                    d3.select("#map-svg")
+                        .selectAll("path")
+                        .each(function() {
+                            // Get the country abbreviation (ISO 3166-1 alpha-3 code) for this path
+                            const countryCode = d3.select(this).attr("id");
+                            // Find the corresponding country data
+                            const countryData = data.find(d => d["Country Code"] === countryCode);
+                            if(countryData && countryData.hasOwnProperty("2022")) {
+                                const lrValue = parseFloat(countryData["2022"]);
+                                d3.select(this).style("fill", colorScale(lrValue));
+                            } else {
+                                console.log("No Literacy Rate data found for country:", countryCode);
+                            }
+                        });
+                })
+                .catch(function(error) {
+                    console.error("Error loading CSV file:", error);
+                });
+              break;
+          case "Unemployment_Button":
+            csvFilePath = "https://raw.githubusercontent.com/chikpea123/grad-final/main/dataset/Unemployment.csv";
+              d3.csv(csvFilePath)
+                .then(function(data) {
+                    d3.select("#map-svg")
+                        .selectAll("path")
+                        .each(function() {
+                            // Get the country abbreviation (ISO 3166-1 alpha-3 code) for this path
+                            const countryCode = d3.select(this).attr("id");
+                            // Find the corresponding country data
+                            const countryData = data.find(d => d["Country Code"] === countryCode);
+                            if(countryData && countryData.hasOwnProperty("2022")) {
+                                const urValue = parseFloat(countryData["2022"]);
+                                d3.select(this).style("fill", colorScale(urValue));
+                            } else {
+                                console.log("No Unemployment Rate data found for country:", countryCode);
+                            }
+                        });
+                })
+                .catch(function(error) {
+                    console.error("Error loading CSV file:", error);
+                });
+              break;
+          } 
       }
 
     </script>
