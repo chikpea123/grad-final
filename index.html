@@ -182,7 +182,6 @@
                   const colorScale = createColorScale(minGDP, maxGDP, "GDP");
                   colorMap(colorScale, indicator);
               });
-          
           case "BMI_Button":
             csvFilePath = "https://raw.githubusercontent.com/chikpea123/grad-final/main/dataset/big_mac_index.csv";
             d3.csv(csvFilePath)
@@ -198,6 +197,7 @@
                   const colorScale = createColorScale(minBMI, maxBMI, "BMI");
                   colorMap(colorScale, indicator);
               });
+              break;
           case "LR_Button":
             csvFilePath = "https://raw.githubusercontent.com/chikpea123/grad-final/main/dataset/Literacy.csv";
             d3.csv(csvFilePath)
