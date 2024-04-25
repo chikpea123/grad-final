@@ -135,7 +135,7 @@
         }
       }
       
-      function changeColor(event, buttonId) {
+      function changeButtonColor(event, buttonId) {
         var buttons = document.querySelectorAll(".option-button");
         buttons.forEach(function (button) {
         button.classList.remove("clicked");
@@ -143,18 +143,19 @@
         event.target.classList.add("clicked");
 
         d3.select("#map-svg")
-        .selectAll("path")
-        .on("mouseover", function (event, d) {
-          var title = d3.select(this).attr("title");
-          var abbv = d3.select(this).attr("id");
-          tooltip.style("opacity", 1)
-          .html(title)
-          .style("left", (event.pageX - tooltip.node().offsetWidth / 2) + "px")
-          .style("top", (event.pageY - tooltip.node().offsetHeight - 10) + "px")
-          .style("display", "block");
-          changeHoverDisplay(event, buttonId, title, abbv);
+          .selectAll("path")
+          .on("mouseover", function (event, d) {
+            var title = d3.select(this).attr("title");
+            var abbv = d3.select(this).attr("id");
+            tooltip.style("opacity", 1)
+                .html(title)
+                .style("left", (event.pageX - tooltip.node().offsetWidth / 2) + "px")
+                .style("top", (event.pageY - tooltip.node().offsetHeight - 10) + "px")
+                .style("display", "block");
+            changeHoverDisplay(event, buttonId, title, abbv);
         });
       }
+
 
     </script>
   </head>
@@ -167,13 +168,13 @@
             <button
               id="BMI_Button"
               class="option-button"
-              onclick="changeColor(event, 'BMI_Button')"
+              onclick="changeButtonColor(event, 'BMI_Button')"
             >
               Big Mac Index
             </button>
           </li>
           <li>
-            <button id="GDP_Button" class="option-button" onclick="changeColor(event, 'GDP_Button')">
+            <button id="GDP_Button" class="option-button" onclick="changeButtonColor(event, 'GDP_Button')">
               GDP
             </button>
           </li>
@@ -181,7 +182,7 @@
             <button
               id="LR_Button"
               class="option-button"
-              onclick="changeColor(event, 'LR_Button')"
+              onclick="changeButtonColor(event, 'LR_Button')"
             >
               Literacy Rate
             </button>
@@ -190,7 +191,7 @@
             <button
               id="Unemployment_Button"
               class="option-button"
-              onclick="changeColor(event, 'Unemployment_Button')"
+              onclick="changeButtonColor(event, 'Unemployment_Button')"
             >
               Unemployment Rate
             </button>
