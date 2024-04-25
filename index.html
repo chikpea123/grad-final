@@ -141,6 +141,7 @@
         button.classList.remove("clicked");
         });
         event.target.classList.add("clicked");
+        colorDomain(buttonId);
 
         d3.select("#map-svg")
           .selectAll("path")
@@ -153,7 +154,6 @@
                 .style("top", (event.pageY - tooltip.node().offsetHeight - 10) + "px")
                 .style("display", "block");
             changeHoverDisplay(event, buttonId, title, abbv);
-            colorDomain(buttonId);
         });
       }
 
@@ -171,7 +171,7 @@
                   console.log("Minimum GDP for 2022:", minGDP);
                   console.log("Maximum GDP for 2022:", maxGDP);
                   const colorScale = createColorScale(minGDP, maxGDP);
-                  colorMap(colorScale, gdpValues);
+                  colorMap(colorScale, indicator);
               });
         }
       }
@@ -179,23 +179,39 @@
       function createColorScale(min, max) {
         return d3.scaleLinear()
           .domain([min, max])
-          .range(["white", "#69b3a2"]); // Adjust colors as needed
+          .range(["white", "#00008B"]); // Adjust colors as needed
       }
 
-      function colorMap(colorScale, data){
-        // Select all path elements within the map SVG
-        d3.select("#map-svg")
-          .selectAll("path")
-          .each(function() {
-            const countryCode = d3.select(this).attr("id");
-            const countryData = data.find(d => d["Country Code"] === countryCode);
-            const gdpValue = parseFloat(countryData["2022"]);
-            d3.select(this).style("fill", colorScale(gdpValue));
-          });
+      function colorMap(colorScale, indicator) {
+        switch (indicator) {
+          case "GDP_Button":
+            const csvFilePath = "https://raw.githubusercontent.com/chikpea123/grad-final/main/dataset/GDP.csv";
+            d3.csv(csvFilePath)
+              .then(function(data) {
+                    d3.select("#map-svg")
+                        .selectAll("path")
+                        .each(function() {
+                            // Get the country abbreviation (ISO 3166-1 alpha-3 code) for this path
+                            const countryCode = d3.select(this).attr("id");
+                            // Find the corresponding country data
+                            const countryData = data.find(d => d["Country Code"] === countryCode);
+                            if (countryData && countryData["2022"]) {
+                                // Extract GDP value for the country
+                                const gdpValue = parseFloat(countryData["2022"]);
+                                // Apply color to the path based on GDP value
+                                d3.select(this).style("fill", colorScale(gdpValue));
+                            } else {
+                                console.log("No GDP data found for country:", countryCode);
+                            }
+                        });
+                })
+                .catch(function(error) {
+                    // Handle errors loading CSV file
+                    console.error("Error loading CSV file:", error);
+                });
+            break;
+        } 
       }
-      
-      
-    
 
     </script>
   </head>
