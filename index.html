@@ -165,6 +165,15 @@
             csvFilePath = "https://raw.githubusercontent.com/chikpea123/grad-final/main/dataset/GDP.csv";
             d3.csv(csvFilePath)
                 .then(function (data) {
+                  const svg = document.getElementById("map-svg");
+                    const countriesInSVG = [];
+                    svg.querySelectorAll('path[title]').forEach(path => {
+                        const countryName = path.getAttribute('title');
+                        countriesInSVG.push(countryName);
+                    });
+
+                  // Step 2: Filter out countries not present in the SVG
+                  data = data.filter(d => countriesInSVG.includes(d["Country Name"]));
                   const gdpValues = data.map(d => parseFloat(d["2022"])).filter(d => !isNaN(d));
                   const minGDP = d3.min(gdpValues);
                   const maxGDP = d3.max(gdpValues);
@@ -195,10 +204,8 @@
                             const countryCode = d3.select(this).attr("id");
                             // Find the corresponding country data
                             const countryData = data.find(d => d["Country Code"] === countryCode);
-                            if (countryData && countryData["2022"]) {
-                                // Extract GDP value for the country
+                            if(countryData && countryData.hasOwnProperty("2022")) {
                                 const gdpValue = parseFloat(countryData["2022"]);
-                                // Apply color to the path based on GDP value
                                 d3.select(this).style("fill", colorScale(gdpValue));
                             } else {
                                 console.log("No GDP data found for country:", countryCode);
@@ -206,7 +213,6 @@
                         });
                 })
                 .catch(function(error) {
-                    // Handle errors loading CSV file
                     console.error("Error loading CSV file:", error);
                 });
             break;
