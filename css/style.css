@@ -12,7 +12,7 @@
 
 #map-svg > path {
   stroke: white;
-  fill: lightblue;
+  /*fill: lightblue;*/
   stroke-width: 1px;
   position: relative;
 }

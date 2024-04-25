@@ -153,9 +153,49 @@
                 .style("top", (event.pageY - tooltip.node().offsetHeight - 10) + "px")
                 .style("display", "block");
             changeHoverDisplay(event, buttonId, title, abbv);
+            colorDomain(buttonId);
         });
       }
 
+      function colorDomain(indicator){
+        var min;
+        var max;
+        switch(indicator){
+          case "GDP_Button":
+            csvFilePath = "https://raw.githubusercontent.com/chikpea123/grad-final/main/dataset/GDP.csv";
+            d3.csv(csvFilePath)
+                .then(function (data) {
+                  const gdpValues = data.map(d => parseFloat(d["2022"])).filter(d => !isNaN(d));
+                  const minGDP = d3.min(gdpValues);
+                  const maxGDP = d3.max(gdpValues);
+                  console.log("Minimum GDP for 2022:", minGDP);
+                  console.log("Maximum GDP for 2022:", maxGDP);
+                  const colorScale = createColorScale(minGDP, maxGDP);
+                  colorMap(colorScale, gdpValues);
+              });
+        }
+      }
+
+      function createColorScale(min, max) {
+        return d3.scaleLinear()
+          .domain([min, max])
+          .range(["white", "#69b3a2"]); // Adjust colors as needed
+      }
+
+      function colorMap(colorScale, data){
+        // Select all path elements within the map SVG
+        d3.select("#map-svg")
+          .selectAll("path")
+          .each(function() {
+            const countryCode = d3.select(this).attr("id");
+            const countryData = data.find(d => d["Country Code"] === countryCode);
+            const gdpValue = parseFloat(countryData["2022"]);
+            d3.select(this).style("fill", colorScale(gdpValue));
+          });
+      }
+      
+      
+    
 
     </script>
   </head>
