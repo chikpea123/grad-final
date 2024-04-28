@@ -27,181 +27,171 @@ function setData(id, country_code, location, title, date_parse) {
         value: d.val,
       };
     },
-  ).then(
-    // Now I can use this dataset:
-    function (data) {
-      // Add X axis --> it is a date format
-      for (let i = data.length - 1; i >= 0; i--) {
-        if (data[i].value === "nan") {
-          data.splice(i, 1);
-        }
+  ).then(function (data) {
+    for (let i = data.length - 1; i >= 0; i--) {
+      if (data[i].value === "nan") {
+        data.splice(i, 1);
       }
-      const x = d3
-        .scaleTime()
-        .domain(
-          d3.extent(data, function (d) {
-            return d.date;
+    }
+    const x = d3
+      .scaleTime()
+      .domain(
+        d3.extent(data, function (d) {
+          return d.date;
+        }),
+      )
+      .range([0, width]);
+
+    svg
+      .append("g")
+      .attr("transform", `translate(0, ${height})`)
+      .call(d3.axisBottom(x));
+
+    // Add Y axis
+    const y = d3
+      .scaleLinear()
+      .domain([
+        0,
+        d3.max(data, function (d) {
+          return +d.value;
+        }),
+      ])
+      .range([height, 0]);
+
+    svg
+      .append("g")
+      .call(d3.axisLeft(y.nice()).tickFormat((d) => formatter.format(d)));
+
+    //add x grid
+    svg
+      .append("g")
+      .attr("transform", `translate(0, ${height})`)
+      .style("opacity", 0.2)
+      .call(
+        d3
+          .axisBottom(x)
+          .tickSize(-1 * height)
+          .tickFormat(""),
+      );
+
+    //add y grid
+    svg
+      .append("g")
+      .style("opacity", 0.2)
+      .call(
+        d3
+          .axisLeft(y.nice())
+          .tickSize(-1 * width)
+          .tickFormat(""),
+      );
+
+    // Add the line
+    svg
+      .append("path")
+      .datum(data)
+      .attr("fill", "none")
+      .attr("stroke", "steelblue")
+      .attr("stroke-width", 1.5)
+      .attr(
+        "d",
+        d3
+          .line()
+          .x(function (d) {
+            return x(d.date);
+          })
+          .y(function (d) {
+            return y(d.value);
           }),
+      );
+
+    // create a tooltip
+    let tooltip = d3
+      .select(id)
+      .append("div")
+      .style("opacity", 0)
+      .attr("class", "chart_tooltip")
+      .style("background-color", "white")
+      .style("border", "solid")
+      .style("border-width", "2px")
+      .style("border-radius", "5px")
+      .style("padding", "5px")
+      .style("position", "absolute");
+
+    function vw(percent) {
+      var w = Math.max(
+        document.documentElement.clientWidth,
+        window.innerWidth || 0,
+      );
+      return (percent * w) / 100;
+    }
+
+    function calcHeight() {
+      return document.getElementById("overlay").scrollTop;
+    }
+    // Three function that change the tooltip when user hover / move / leave a cell
+    let mouseover = function (d) {
+      tooltip.style("opacity", 1).style("display", "block");
+      d3.select(this).style("stroke", "black").style("opacity", 1);
+    };
+
+    let mousemove = function (event, d) {
+      const timeFormat = d3.utcFormat(date_parse);
+      tooltip
+        .html(
+          "y: " +
+            formatter.format(d.value) +
+            "<br/>" +
+            "x: " +
+            timeFormat(d.date),
         )
-        .range([0, width]);
+        .style("left", event.clientX - vw(20) + 50 + "px")
+        .style("top", event.clientY + calcHeight() + "px");
+    };
 
-      svg
-        .append("g")
-        .attr("transform", `translate(0, ${height})`)
-        .call(d3.axisBottom(x));
+    let mouseleave = function (d) {
+      tooltip.style("opacity", 0).style("display", "none");
+      d3.select(this).style("stroke", "none");
+    };
 
-      // Add Y axis
-      const y = d3
-        .scaleLinear()
-        .domain([
-          0,
-          d3.max(data, function (d) {
-            return +d.value;
-          }),
-        ])
-        .range([height, 0]);
+    svg
+      .selectAll(".dot")
+      .data(data)
+      .enter()
+      .append("circle")
+      .attr("r", 3)
+      .attr("fill", "steelblue")
+      .attr("stroke", "steelblue")
+      .attr("cx", function (d) {
+        return x(d.date);
+      })
+      .attr("cy", function (d) {
+        return y(d.value);
+      })
+      .on("mouseover", mouseover)
+      .on("mousemove", mousemove)
+      .on("mouseleave", mouseleave);
 
-      svg
-        .append("g")
-        .call(d3.axisLeft(y.nice()).tickFormat((d) => formatter.format(d)));
+    //add titles
+    svg
+      .append("text")
+      .attr("x", width / 2)
+      .attr("y", -15)
+      .attr("text-anchor", "middle")
+      .text(title + " vs " + "Year");
 
-      //add x grid
-      svg
-        .append("g")
-        .attr("transform", `translate(0, ${height})`)
-        .style("opacity", 0.2)
-        .call(
-          d3
-            .axisBottom(x)
-            .tickSize(-1 * height)
-            .tickFormat(""),
-        );
+    svg
+      .append("text")
+      .attr("x", width / 2)
+      .attr("y", height + 50)
+      .attr("text-anchor", "middle")
+      .text("Year");
 
-      //add y grid
-      svg
-        .append("g")
-        .style("opacity", 0.2)
-        .call(
-          d3
-            .axisLeft(y.nice())
-            .tickSize(-1 * width)
-            .tickFormat(""),
-        );
-
-      // Add the line
-      svg
-        .append("path")
-        .datum(data)
-        .attr("fill", "none")
-        .attr("stroke", "steelblue")
-        .attr("stroke-width", 1.5)
-        .attr(
-          "d",
-          d3
-            .line()
-            .x(function (d) {
-              return x(d.date);
-            })
-            .y(function (d) {
-              return y(d.value);
-            }),
-        );
-
-      // create a tooltip
-      let tooltip = d3
-        .select(id)
-        .append("div")
-        .style("opacity", 0)
-        .attr("class", "chart_tooltip")
-        .style("background-color", "white")
-        .style("border", "solid")
-        .style("border-width", "2px")
-        .style("border-radius", "5px")
-        .style("padding", "5px")
-        .style("position", "absolute");
-
-      function vw(percent) {
-        var w = Math.max(
-          document.documentElement.clientWidth,
-          window.innerWidth || 0,
-        );
-        return (percent * w) / 100;
-      }
-
-      function calcHeight() {
-        return document.getElementById("overlay").scrollTop;
-      }
-      // Three function that change the tooltip when user hover / move / leave a cell
-      let mouseover = function (d) {
-        tooltip.style("opacity", 1).style("display", "block");
-        d3.select(this).style("stroke", "black").style("opacity", 1);
-      };
-
-      let mousemove = function (event, d) {
-        const timeFormat = d3.utcFormat(date_parse);
-        tooltip
-          .html(
-            "y: " +
-              formatter.format(d.value) +
-              "<br/>" +
-              "x: " +
-              timeFormat(d.date),
-          )
-          .style("left", event.clientX - vw(20) + 50 + "px")
-          .style("top", event.clientY + calcHeight() + "px");
-      };
-
-      let mouseleave = function (d) {
-        tooltip.style("opacity", 0).style("display", "none");
-        d3.select(this).style("stroke", "none");
-      };
-
-      svg
-        .selectAll(".dot")
-        .data(data)
-        .enter()
-        .append("circle")
-        .attr("r", 3)
-        .attr("fill", "steelblue")
-        .attr("stroke", "steelblue")
-        .attr("cx", function (d) {
-          return x(d.date);
-        })
-        .attr("cy", function (d) {
-          return y(d.value);
-        })
-        .on("mouseover", mouseover)
-        .on("mousemove", mousemove)
-        .on("mouseleave", mouseleave);
-
-      //add titles
-      svg
-        .append("text")
-        .attr("x", width / 2)
-        .attr("y", -15)
-        .attr("text-anchor", "middle")
-        .text(title + " vs " + "Year");
-
-      svg
-        .append("text")
-        .attr("x", width / 2)
-        .attr("y", height + 50)
-        .attr("text-anchor", "middle")
-        .text("Year");
-
-      svg
-        .append("text")
-        .attr("y", -50)
-        .attr("x", (-1 * height) / 2)
-        .attr("text-anchor", "middle")
-        .attr("transform", "rotate(-90)")
-        .text(title);
-    },
-  );
+    svg
+      .append("text")
+      .attr("y", -50)
+      .attr("x", (-1 * height) / 2)
+      .attr("text-anchor", "middle")
+      .attr("transform", "rotate(-90)")
+      .text(title);
+  });
 }
-
-//TODO: remove?
-/*setData("#GDP", "ABW", "GDP", "GDP per capita");
-setData("#Unemployment", "ABW", "Unemployment", "Unemployment Rate");
-setData("#Literacy", "ABW", "Literacy", "Literacy Rate");
-*/

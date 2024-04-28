@@ -20,7 +20,8 @@
               .on("mouseover", function (event, d) {
                 var title = d3.select(this).attr("title");
                 var abbv = d3.select(this).attr("id");
-                var selectedYear= document.getElementById('year-display').textContent;
+                var selectedYear =
+                  document.getElementById("year-display").textContent;
                 var csvFilePath =
                   "https://raw.githubusercontent.com/chikpea123/grad-final/main/dataset/GDP/" +
                   abbv +
@@ -32,7 +33,12 @@
                       (entry) => entry.date === selectedYear,
                     ).val;
                     var tooltipContent =
-                      "Country: " + title + "<br>GDP per Capita "+selectedYear+":" + GDP;
+                      "Country: " +
+                      title +
+                      "<br>GDP per Capita " +
+                      selectedYear +
+                      ":" +
+                      GDP;
                     tooltip
                       .html(tooltipContent)
                       .style(
@@ -61,7 +67,8 @@
               .on("mouseover", function (event, d) {
                 var title = d3.select(this).attr("title");
                 var abbv = d3.select(this).attr("id");
-                var selectedYear= document.getElementById('year-display').textContent;
+                var selectedYear =
+                  document.getElementById("year-display").textContent;
                 var csvFilePath =
                   "https://raw.githubusercontent.com/chikpea123/grad-final/main/dataset/BigMacIndex/" +
                   abbv +
@@ -70,14 +77,14 @@
                 d3.csv(csvFilePath)
                   .then(function (data) {
                     const BMI2022 = data.find(
-                      (entry) => entry.date === selectedYear+"-01-01",
+                      (entry) => entry.date === selectedYear + "-01-01",
                     ).val;
                     var tooltipContent =
                       "Country: " +
                       title +
-                      "<br>Big Mac Index in USD "+
-                        selectedYear +
-                        ":"+
+                      "<br>Big Mac Index in USD " +
+                      selectedYear +
+                      ":" +
                       BMI2022;
                     tooltip
                       .html(tooltipContent)
@@ -95,7 +102,7 @@
                     var tooltipContent =
                       "Country: " +
                       title +
-                      "<br>Sorry, We don't have data of this year "
+                      "<br>Sorry, We don't have data of this year ";
                     tooltip
                       .html(tooltipContent)
                       .style(
@@ -120,7 +127,8 @@
               .on("mouseover", function (event, d) {
                 var title = d3.select(this).attr("title");
                 var abbv = d3.select(this).attr("id");
-                var selectedYear= document.getElementById('year-display').textContent;
+                var selectedYear =
+                  document.getElementById("year-display").textContent;
                 var csvFilePath =
                   "https://raw.githubusercontent.com/chikpea123/grad-final/main/dataset/Literacy/" +
                   abbv +
@@ -134,9 +142,9 @@
                     var tooltipContent =
                       "Country: " +
                       title +
-                      "<br>Literacy Rate "+
-                        selectedYear+
-                        ":"+
+                      "<br>Literacy Rate " +
+                      selectedYear +
+                      ":" +
                       LR;
                     tooltip
                       .html(tooltipContent)
@@ -152,10 +160,7 @@
                   })
                   .catch(function (error) {
                     var tooltipContent =
-                      "Country: " +
-                      title +
-                      "<br>Literacy Rate : " +
-                      "nan";
+                      "Country: " + title + "<br>Literacy Rate : " + "nan";
                     tooltip
                       .html(tooltipContent)
                       .style(
@@ -180,7 +185,8 @@
               .on("mouseover", function (event, d) {
                 var title = d3.select(this).attr("title");
                 var abbv = d3.select(this).attr("id");
-                var selectedYear= document.getElementById('year-display').textContent;
+                var selectedYear =
+                  document.getElementById("year-display").textContent;
                 var csvFilePath =
                   "https://raw.githubusercontent.com/chikpea123/grad-final/main/dataset/Unemployment/" +
                   abbv +
@@ -195,8 +201,8 @@
                       "Country: " +
                       title +
                       "<br>Unemployment Rate  " +
-                        selectedYear+
-                        ":"+
+                      selectedYear +
+                      ":" +
                       UR;
                     tooltip
                       .html(tooltipContent)
@@ -212,10 +218,7 @@
                   })
                   .catch(function (error) {
                     var tooltipContent =
-                      "Country: " +
-                      title +
-                      "<br>Unemployment Rate : " +
-                      "nan";
+                      "Country: " + title + "<br>Unemployment Rate : " + "nan";
                     tooltip
                       .html(tooltipContent)
                       .style(
@@ -313,6 +316,7 @@
               console.log("Maximum Big Mac Index for 2022 (USD):", maxBMI);
               const colorScale = createColorScale(minBMI, maxBMI, "BMI");
               colorMap(colorScale, indicator);
+              addLegend(colorScale);
             });
             break;
           case "LR_Button":
@@ -339,6 +343,7 @@
               console.log("Maximum Literacy Rate for 2022:", maxLR);
               const colorScale = createColorScale(minLR, maxLR, "LR");
               colorMap(colorScale, indicator);
+              addLegend(colorScale);
             });
             break;
           case "Unemployment_Button":
@@ -365,6 +370,7 @@
               console.log("Maximum Literacy Rate for 2022:", maxUR);
               const colorScale = createColorScale(minUR, maxUR, "UR");
               colorMap(colorScale, indicator);
+              addLegend(colorScale);
             });
             break;
         }
@@ -1907,18 +1913,17 @@
     </script>
     <!-- line chart function -->
     <script src="js/line_chart.js"></script>
+    <script src="js/legend.js"></script>
 
     <script>
-
-    var prev;
-
+      var prev;
 
       //get country onclick
       d3.select("#map-svg")
         .selectAll("path")
         .on("click", function (e) {
-            prev = e.target.attributes.id.value
-            prevtitle = e.target.attributes.title.value
+          prev = e.target.attributes.id.value;
+          prevtitle = e.target.attributes.title.value;
           setData(
             "#GDP",
             e.target.attributes.id.value,
@@ -1950,318 +1955,301 @@
           document.getElementById("charts-title").innerText =
             e.target.attributes.title.value;
 
-            // Use the preservedValue later
-            console.log(prev);
-            console.log(prevtitle);
+          // Use the preservedValue later
+          console.log(prev);
+          console.log(prevtitle);
         });
-
     </script>
 
-
-        <script>
+    <script>
       //get country onclick of dropdown button & comparison button
       d3.select("#compare").on("click", function () {
-          var selectedValue = d3.select("#dropdown").property("value");
-          var selectedOption = d3.select("#dropdown option:checked").node(); // Select the currently selected option
-    var chartTitle = d3.select(selectedOption).attr("title");
-          d3.select("#BigMacIndex").selectAll("svg").remove();
-          d3.select("#Literacy").selectAll("svg").remove();
-          d3.select("#Unemployment").selectAll("svg").remove();
-          d3.select("#GDP").selectAll("svg").remove();
-          //var prev = d3.select("#map-svg").selectAll("path").on("click", function (e) { e.target.attributes.id.value });
+        var selectedValue = d3.select("#dropdown").property("value");
+        var selectedOption = d3.select("#dropdown option:checked").node(); // Select the currently selected option
+        var chartTitle = d3.select(selectedOption).attr("title");
+        d3.select("#BigMacIndex").selectAll("svg").remove();
+        d3.select("#Literacy").selectAll("svg").remove();
+        d3.select("#Unemployment").selectAll("svg").remove();
+        d3.select("#GDP").selectAll("svg").remove();
+        //var prev = d3.select("#map-svg").selectAll("path").on("click", function (e) { e.target.attributes.id.value });
 
+        // Override the setData function with custom functionality
+        function setData(id, country_code, location, title, date_parse) {
+          // set the dimensions and margins of the graph
+          const margin = { top: 30, right: 30, bottom: 65, left: 65 },
+            width = 400 - margin.left - margin.right,
+            height = 400 - margin.top - margin.bottom;
 
-          // Override the setData function with custom functionality
-    function setData(id, country_code, location, title, date_parse) {
-        // set the dimensions and margins of the graph
-const margin = { top: 30, right: 30, bottom: 65, left: 65 },
-  width = 400 - margin.left - margin.right,
-  height = 400 - margin.top - margin.bottom;
+          let formatter = Intl.NumberFormat("en", { notation: "compact" });
 
-  let formatter = Intl.NumberFormat("en", { notation: "compact" });
+          const svg = d3
+            .select(id)
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
 
-  const svg = d3
-    .select(id)
-    .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", `translate(${margin.left},${margin.top})`);
+          d3.csv(
+            `https://raw.githubusercontent.com/chikpea123/grad-final/main/dataset/${location}/${country_code}.csv`,
 
-  d3.csv(
-    `https://raw.githubusercontent.com/chikpea123/grad-final/main/dataset/${location}/${country_code}.csv`,
+            // When reading the csv, I must format variables:
+            function (d) {
+              return {
+                date: d3.timeParse(date_parse)(d.date),
+                value: d.val,
+              };
+            },
+          ).then(
+            // Now I can use this dataset:
+            function (data) {
+              // Add X axis --> it is a date format
+              for (let i = data.length - 1; i >= 0; i--) {
+                if (data[i].value === "nan") {
+                  data.splice(i, 1);
+                }
+              }
+              const x = d3
+                .scaleTime()
+                .domain(
+                  d3.extent(data, function (d) {
+                    return d.date;
+                  }),
+                )
+                .range([0, width]);
 
-    // When reading the csv, I must format variables:
-    function (d) {
-      return {
-        date: d3.timeParse(date_parse)(d.date),
-        value: d.val,
-      };
-    },
-  ).then(
-    // Now I can use this dataset:
-    function (data) {
-      // Add X axis --> it is a date format
-      for (let i = data.length - 1; i >= 0; i--) {
-        if (data[i].value === "nan") {
-          data.splice(i, 1);
+              svg
+                .append("g")
+                .attr("transform", `translate(0, ${height})`)
+                .call(d3.axisBottom(x));
+
+              // Add Y axis
+              const y = d3
+                .scaleLinear()
+                .domain([
+                  0,
+                  d3.max(data, function (d) {
+                    return +d.value;
+                  }),
+                ])
+                .range([height, 0]);
+
+              svg
+                .append("g")
+                .call(
+                  d3.axisLeft(y.nice()).tickFormat((d) => formatter.format(d)),
+                );
+
+              //add x grid
+              svg
+                .append("g")
+                .attr("transform", `translate(0, ${height})`)
+                .style("opacity", 0.2)
+                .call(
+                  d3
+                    .axisBottom(x)
+                    .tickSize(-1 * height)
+                    .tickFormat(""),
+                );
+
+              //add y grid
+              svg
+                .append("g")
+                .style("opacity", 0.2)
+                .call(
+                  d3
+                    .axisLeft(y.nice())
+                    .tickSize(-1 * width)
+                    .tickFormat(""),
+                );
+
+              // Add the line
+              svg
+                .append("path")
+                .datum(data)
+                .attr("fill", "none")
+                .attr("stroke", "steelblue")
+                .attr("stroke-width", 1.5)
+                .attr(
+                  "d",
+                  d3
+                    .line()
+                    .x(function (d) {
+                      return x(d.date);
+                    })
+                    .y(function (d) {
+                      return y(d.value);
+                    }),
+                );
+
+              // create a tooltip
+              let tooltip = d3
+                .select(id)
+                .append("div")
+                .style("opacity", 0)
+                .attr("class", "chart_tooltip")
+                .style("background-color", "white")
+                .style("border", "solid")
+                .style("border-width", "2px")
+                .style("border-radius", "5px")
+                .style("padding", "5px")
+                .style("position", "absolute");
+
+              function vw(percent) {
+                var w = Math.max(
+                  document.documentElement.clientWidth,
+                  window.innerWidth || 0,
+                );
+                return (percent * w) / 100;
+              }
+
+              function calcHeight() {
+                return document.getElementById("overlay").scrollTop;
+              }
+              // Three function that change the tooltip when user hover / move / leave a cell
+              let mouseover = function (d) {
+                tooltip.style("opacity", 1).style("display", "block");
+                d3.select(this).style("stroke", "black").style("opacity", 1);
+              };
+
+              let mousemove = function (event, d) {
+                const timeFormat = d3.utcFormat(date_parse);
+                tooltip
+                  .html(
+                    "y: " +
+                      formatter.format(d.value) +
+                      "<br/>" +
+                      "x: " +
+                      timeFormat(d.date),
+                  )
+                  .style("left", event.clientX - vw(20) + 50 + "px")
+                  .style("top", event.clientY + calcHeight() + "px");
+              };
+
+              let mouseleave = function (d) {
+                tooltip.style("opacity", 0).style("display", "none");
+                d3.select(this).style("stroke", "none");
+              };
+
+              svg
+                .selectAll(".dot")
+                .data(data)
+                .enter()
+                .append("circle")
+                .attr("r", 3)
+                .attr("fill", "steelblue")
+                .attr("stroke", "steelblue")
+                .attr("cx", function (d) {
+                  return x(d.date);
+                })
+                .attr("cy", function (d) {
+                  return y(d.value);
+                })
+                .on("mouseover", mouseover)
+                .on("mousemove", mousemove)
+                .on("mouseleave", mouseleave);
+
+              //add titles
+              svg
+                .append("text")
+                .attr("x", width / 2)
+                .attr("y", -15)
+                .attr("text-anchor", "middle")
+                .text(title + " vs " + "Year");
+
+              svg
+                .append("text")
+                .attr("x", width / 2)
+                .attr("y", height + 50)
+                .attr("text-anchor", "middle")
+                .text("Year");
+
+              svg
+                .append("text")
+                .attr("y", -50)
+                .attr("x", (-1 * height) / 2)
+                .attr("text-anchor", "middle")
+                .attr("transform", "rotate(-90)")
+                .text(title);
+            },
+          );
+          // Custom implementation of setData
+          console.log("Override setData called!");
+          // Implement your custom logic here
         }
-      }
-      const x = d3
-        .scaleTime()
-        .domain(
-          d3.extent(data, function (d) {
-            return d.date;
-          }),
-        )
-        .range([0, width]);
 
-      svg
-        .append("g")
-        .attr("transform", `translate(0, ${height})`)
-        .call(d3.axisBottom(x));
+        setData("#GDP", prev, "GDP", "GDP (per capita)", "%Y");
 
-      // Add Y axis
-      const y = d3
-        .scaleLinear()
-        .domain([
-          0,
-          d3.max(data, function (d) {
-            return +d.value;
-          }),
-        ])
-        .range([height, 0]);
-
-      svg
-        .append("g")
-        .call(d3.axisLeft(y.nice()).tickFormat((d) => formatter.format(d)));
-
-      //add x grid
-      svg
-        .append("g")
-        .attr("transform", `translate(0, ${height})`)
-        .style("opacity", 0.2)
-        .call(
-          d3
-            .axisBottom(x)
-            .tickSize(-1 * height)
-            .tickFormat(""),
-        );
-
-      //add y grid
-      svg
-        .append("g")
-        .style("opacity", 0.2)
-        .call(
-          d3
-            .axisLeft(y.nice())
-            .tickSize(-1 * width)
-            .tickFormat(""),
-        );
-
-      // Add the line
-      svg
-        .append("path")
-        .datum(data)
-        .attr("fill", "none")
-        .attr("stroke", "steelblue")
-        .attr("stroke-width", 1.5)
-        .attr(
-          "d",
-          d3
-            .line()
-            .x(function (d) {
-              return x(d.date);
-            })
-            .y(function (d) {
-              return y(d.value);
-            }),
-        );
-
-      // create a tooltip
-      let tooltip = d3
-        .select(id)
-        .append("div")
-        .style("opacity", 0)
-        .attr("class", "chart_tooltip")
-        .style("background-color", "white")
-        .style("border", "solid")
-        .style("border-width", "2px")
-        .style("border-radius", "5px")
-        .style("padding", "5px")
-        .style("position", "absolute");
-
-      function vw(percent) {
-        var w = Math.max(
-          document.documentElement.clientWidth,
-          window.innerWidth || 0,
-        );
-        return (percent * w) / 100;
-      }
-
-      function calcHeight() {
-        return document.getElementById("overlay").scrollTop;
-      }
-      // Three function that change the tooltip when user hover / move / leave a cell
-      let mouseover = function (d) {
-        tooltip.style("opacity", 1).style("display", "block");
-        d3.select(this).style("stroke", "black").style("opacity", 1);
-      };
-
-      let mousemove = function (event, d) {
-        const timeFormat = d3.utcFormat(date_parse);
-        tooltip
-          .html(
-            "y: " +
-              formatter.format(d.value) +
-              "<br/>" +
-              "x: " +
-              timeFormat(d.date),
-          )
-          .style("left", event.clientX - vw(20) + 50 + "px")
-          .style("top", event.clientY + calcHeight() + "px");
-      };
-
-      let mouseleave = function (d) {
-        tooltip.style("opacity", 0).style("display", "none");
-        d3.select(this).style("stroke", "none");
-      };
-
-      svg
-        .selectAll(".dot")
-        .data(data)
-        .enter()
-        .append("circle")
-        .attr("r", 3)
-        .attr("fill", "steelblue")
-        .attr("stroke", "steelblue")
-        .attr("cx", function (d) {
-          return x(d.date);
-        })
-        .attr("cy", function (d) {
-          return y(d.value);
-        })
-        .on("mouseover", mouseover)
-        .on("mousemove", mousemove)
-        .on("mouseleave", mouseleave);
-
-      //add titles
-      svg
-        .append("text")
-        .attr("x", width / 2)
-        .attr("y", -15)
-        .attr("text-anchor", "middle")
-        .text(title + " vs " + "Year");
-
-      svg
-        .append("text")
-        .attr("x", width / 2)
-        .attr("y", height + 50)
-        .attr("text-anchor", "middle")
-        .text("Year");
-
-      svg
-        .append("text")
-        .attr("y", -50)
-        .attr("x", (-1 * height) / 2)
-        .attr("text-anchor", "middle")
-        .attr("transform", "rotate(-90)")
-        .text(title);
-    },
-  );
-        // Custom implementation of setData
-        console.log("Override setData called!");
-        // Implement your custom logic here
-    }
+        setData("#GDP", selectedValue, "GDP", "GDP (per capita)", "%Y");
 
         setData(
-            "#GDP",
-            prev,
-            "GDP",
-            "GDP (per capita)",
-            "%Y",
-          );
+          "#Unemployment",
+          prev,
+          "Unemployment",
+          "Unemployment Rate (%)",
+          "%Y",
+        );
 
-          setData(
-            "#GDP",
-            selectedValue,
-            "GDP",
-            "GDP (per capita)",
-            "%Y",
-          );
+        setData(
+          "#Unemployment",
+          selectedValue,
+          "Unemployment",
+          "Unemployment Rate (%)",
+          "%Y",
+        );
 
-          setData(
-            "#Unemployment",
-            prev,
-            "Unemployment",
-            "Unemployment Rate (%)",
-            "%Y",
-          );
+        setData("#Literacy", prev, "Literacy", "Literacy Rate (%)", "%Y");
 
-          setData(
-            "#Unemployment",
-            selectedValue,
-            "Unemployment",
-            "Unemployment Rate (%)",
-            "%Y",
-          );
+        setData(
+          "#Literacy",
+          selectedValue,
+          "Literacy",
+          "Literacy Rate (%)",
+          "%Y",
+        );
 
-          setData(
-            "#Literacy",
-            prev,
-            "Literacy",
-            "Literacy Rate (%)",
-            "%Y",
-          );
+        setData(
+          "#BigMacIndex",
+          prev,
+          "BigMacIndex",
+          "Big Mac Price (USD)",
+          "%Y-%M-%d",
+        );
 
-          setData(
-            "#Literacy",
-            selectedValue,
-            "Literacy",
-            "Literacy Rate (%)",
-            "%Y",
-          );
-
-          setData(
-            "#BigMacIndex",
-            prev,
-            "BigMacIndex",
-            "Big Mac Price (USD)",
-            "%Y-%M-%d",
-          );
-        
-          setData(
-            "#BigMacIndex",
-            selectedValue,
-            "BigMacIndex",
-            "Big Mac Price (USD)",
-            "%Y-%M-%d",
-          );
-          document.getElementById("charts-title").innerText = prevtitle + "   vs.   " + chartTitle;
-        });
-
+        setData(
+          "#BigMacIndex",
+          selectedValue,
+          "BigMacIndex",
+          "Big Mac Price (USD)",
+          "%Y-%M-%d",
+        );
+        document.getElementById("charts-title").innerText =
+          prevtitle + "   vs.   " + chartTitle;
+      });
     </script>
 
-    <div id="timeslider" style="position: absolute; top: 100px; left: 100px;">
-        <input type="range" id="year-slider" min="1960" max="2022" style="width: 80%; color:black" >
-        <p>Year:<span id="year-display">1980</span></p>
+    <div id="timeslider" style="position: absolute; top: 100px; left: 100px">
+      <input
+        type="range"
+        id="year-slider"
+        min="1960"
+        max="2022"
+        style="width: 80%; color: black"
+      />
+      <p>Year:<span id="year-display">1980</span></p>
     </div>
 
     <script src="https://d3js.org/d3.v7.min.js"></script>
 
-  <script>
-        document.addEventListener('DOMContentLoaded',function() {
-            var slider = document.getElementById('year-slider');
-            var yearDisplay = document.getElementById('year-display');
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var slider = document.getElementById("year-slider");
+        var yearDisplay = document.getElementById("year-display");
 
-            slider.addEventListener('input', function() {
-                yearDisplay.textContent = slider.value;
-            });
+        slider.addEventListener("input", function () {
+          yearDisplay.textContent = slider.value;
         });
-
+      });
     </script>
-
-
-
   </body>
 </html>
