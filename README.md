@@ -1,5 +1,18 @@
 Final Project - Interactive Data Visualization Research  
 ===
+Submission Materials:
+=
+
+Project Website: https://chikpea123.github.io/grad-final/homepage.html
+
+Process Book (also linked on website): https://wpi0-my.sharepoint.com/:w:/g/personal/mkmarcotte_wpi_edu/EZToR-LG0F9Mhg9TVfNia4YBEBRWcBslsaLHavI5-96_2w?e=K1YGmh 
+
+Annotated Bibliography: https://wpi0-my.sharepoint.com/:w:/g/personal/mkmarcotte_wpi_edu/EUoPy2t6hY9JoOyXYcCLTpMBjJYYRBS9AJBcxLS40LZwsw?e=N5iEgI
+
+Completed Visualization (also linked on website): https://chikpea123.github.io/grad-final/
+
+
+
 
 The key learning experience of this course is the final project. 
 You can design interactive visualization systems, develop visualization techniques for general data, or design a visualization related experiment.
