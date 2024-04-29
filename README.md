@@ -11,8 +11,8 @@ Annotated Bibliography: https://wpi0-my.sharepoint.com/:w:/g/personal/mkmarcotte
 
 Completed Visualization (also linked on website): https://chikpea123.github.io/grad-final/
 
-
-
+Start of Original README
+===
 
 The key learning experience of this course is the final project. 
 You can design interactive visualization systems, develop visualization techniques for general data, or design a visualization related experiment.
