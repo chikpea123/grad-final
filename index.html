@@ -308,7 +308,7 @@
             d3.csv(csvFilePath).then(function (data) {
               const bmiValues = data
                 .filter((d) => d["date"] === "2022-01-01")
-                .map((d) => parseFloat(d["USD"]))
+                .map((d) => parseFloat(d["dollar_price"]))
                 .filter((d) => !isNaN(d));
               const minBMI = d3.min(bmiValues);
               const maxBMI = d3.max(bmiValues);
@@ -450,8 +450,8 @@
                         d["iso_a3"] === countryCode &&
                         d["date"] === "2022-01-01",
                     );
-                    if (countryData && countryData.hasOwnProperty("USD")) {
-                      const bmiValue = parseFloat(countryData["USD"]);
+                    if (countryData && countryData.hasOwnProperty("dollar_price")) {
+                      const bmiValue = parseFloat(countryData["dollar_price"]);
                       d3.select(this).style("fill", colorScale(bmiValue));
                     } else {
                       console.log(
