@@ -5,7 +5,7 @@ Submission Materials:
 
 Project Website: https://chikpea123.github.io/grad-final/homepage.html
 
-Process Book (also linked on website): https://wpi0-my.sharepoint.com/:w:/g/personal/mkmarcotte_wpi_edu/EZToR-LG0F9Mhg9TVfNia4YBEBRWcBslsaLHavI5-96_2w?e=K1YGmh 
+Process Book (also linked on website): [https://wpi0-my.sharepoint.com/:w:/g/personal/mkmarcotte_wpi_edu/EZToR-LG0F9Mhg9TVfNia4YBEBRWcBslsaLHavI5-96_2w?e=K1YGmh ](https://wpi0-my.sharepoint.com/:w:/g/personal/mkmarcotte_wpi_edu/Ef8k_il60qRJkq1b0KTgyBQBDVewboS1PywfOkj_-Thtvg?e=lzCUoo)
 
 Annotated Bibliography: https://wpi0-my.sharepoint.com/:w:/g/personal/mkmarcotte_wpi_edu/EUoPy2t6hY9JoOyXYcCLTpMBjJYYRBS9AJBcxLS40LZwsw?e=N5iEgI
 
