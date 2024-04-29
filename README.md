@@ -11,6 +11,8 @@ Annotated Bibliography: https://wpi0-my.sharepoint.com/:w:/g/personal/mkmarcotte
 
 Completed Visualization (also linked on website): https://chikpea123.github.io/grad-final/
 
+Prospectus: https://wpi0-my.sharepoint.com/:w:/g/personal/mcliao_wpi_edu/EUpBydi1QUxHhmwrEKRGw-kBIGs3z15ZELIi1ahjoak3kQ?e=aaPEce
+
 Start of Original README
 ===
 
